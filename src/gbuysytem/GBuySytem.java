@@ -4,18 +4,17 @@
  */
 package gbuysytem;
 
-/**
- *
- * @author carlconrad
- */
+import gbuysytem.GUI.Mainframe;
+
+ 
 public class GBuySytem {
 
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String[] args) {
-        System.out.println("test");
-        System.out.println("test pull from main to other branch");
+        // System.out.println("test");
+        // System.out.println("test pull from main to other branch");
+
+        new  Mainframe ();
     }
     
 }
