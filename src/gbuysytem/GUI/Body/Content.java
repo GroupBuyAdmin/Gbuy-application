@@ -20,10 +20,14 @@ public class Content extends JPanel{
    
     private Dashboard dashboard;
     private Header header;
+    private CreateProductPopUp cpp;
     public Content(){
 
         header = new Header();
         dashboard = new Dashboard();
+        cpp = new CreateProductPopUp();
+
+        header.setDashboard(cpp);
 
         Border border = BorderFactory.createEtchedBorder();
         Border margin = BorderFactory.createEmptyBorder(0, 10, 0, 0);     
