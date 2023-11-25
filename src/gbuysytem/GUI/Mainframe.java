@@ -18,7 +18,7 @@ public class Mainframe extends JFrame{
         body = new Content();
         sidebar = new Sidebar();
         setDashboardLayout();  
-        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public void setDashboardLayout(){

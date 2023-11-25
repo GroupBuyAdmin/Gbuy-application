@@ -4,17 +4,23 @@
  */
 package gbuysytem;
 
+import javax.swing.SwingUtilities;
+
 import gbuysytem.GUI.Mainframe;
 
  
 public class GBuySytem {
-
-   
     public static void main(String[] args) {
         // System.out.println("test");
         // System.out.println("test pull from main to other branch");
-
-        new  Mainframe ();
+        SwingUtilities.invokeLater(new 
+        Runnable() {
+            @Override
+            public void run() {
+                new  Mainframe ();
+            }
+            
+        });
     }
     // merge to main
 }
