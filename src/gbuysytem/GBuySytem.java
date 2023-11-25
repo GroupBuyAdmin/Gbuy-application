@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 import gbuysytem.GUI.Mainframe;
 
- 
 public class GBuySytem {
     public static void main(String[] args) {
         // System.out.println("test");
@@ -19,7 +18,6 @@ public class GBuySytem {
             public void run() {
                 new  Mainframe ();
             }
-            
         });
     }
     // merge to main

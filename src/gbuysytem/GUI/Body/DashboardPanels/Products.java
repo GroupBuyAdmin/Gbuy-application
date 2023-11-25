@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
+package gbuysytem.GUI.Body.DashboardPanels;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
+//use getPanel() method to return instance of panel
 
 public class Products implements PanelReturner{
     private JPanel allPanels;
@@ -48,7 +48,6 @@ public class Products implements PanelReturner{
         allPanels.add(rigidSpacing(productDimension, 10));
         allPanels.add(listPanel);
     }
-
 
     //top panel
     private void createTopPanel(){
