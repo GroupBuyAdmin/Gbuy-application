@@ -12,10 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
+
 //use getPanel() method to return instance of panel
 
 public class Analytics implements PanelReturner{
-    private JPanel allPanels, customerPanel, profitsPanel, revenuePanel, invoicesPanel;
+    private JPanel masterPanel, customerPanel, profitsPanel, revenuePanel, invoicesPanel;
     private AnalyticPanel customerData, revenueData, invoicesData, profitData;
 
     private Dimension analyticDimension;
@@ -24,7 +26,7 @@ public class Analytics implements PanelReturner{
     //final
     private final Border analyticsBorder = BorderFactory.createEmptyBorder(50, 50, 50, 50);
     private final GridLayout analyticsLayout = new GridLayout(0, 2, 50, 50);
-    private final Color tempColor = Color.CYAN;
+    private final Color tempColor = Color.decode("#F7F8FA");
     
     //images
     private ImageIcon customerIcon;
@@ -94,18 +96,18 @@ public class Analytics implements PanelReturner{
 
 
     private void generatePanels() {
-        allPanels = new JPanel();
-        allPanels.setPreferredSize(analyticDimension);
+        masterPanel = new JPanel();
+        masterPanel.setPreferredSize(analyticDimension);
 
         customerPanel = new JPanel();
         profitsPanel = new JPanel();
         revenuePanel = new JPanel();
         invoicesPanel = new JPanel();
 
-        customerData = new AnalyticPanel("Customer", null, customerIcon, panelDimension);
-        revenueData = new AnalyticPanel("Revenue", null, revenueIcon, panelDimension);
-        invoicesData = new AnalyticPanel("Invoices", null, invoicesIcon, panelDimension);
-        profitData = new AnalyticPanel("Profit", null, profitsIcon, panelDimension);
+        customerData = new AnalyticPanel("Customer", AnalyticsPalette.CUSTOMER.getColor(), customerIcon, panelDimension);
+        revenueData = new AnalyticPanel("Revenue", AnalyticsPalette.REVENUE.getColor(), revenueIcon, panelDimension);
+        invoicesData = new AnalyticPanel("Invoices", AnalyticsPalette.INVOICE.getColor(), invoicesIcon, panelDimension);
+        profitData = new AnalyticPanel("Profit", AnalyticsPalette.PROFIT.getColor(), profitsIcon, panelDimension);
 
     }
 
@@ -159,24 +161,25 @@ public class Analytics implements PanelReturner{
 
 
     private void addAllToAllPanels(){
-        allPanels.setBorder(analyticsBorder);
-        allPanels.setLayout(analyticsLayout);
-        allPanels.add(customerPanel);
-        allPanels.add(profitsPanel);
-        allPanels.add(revenuePanel);
-        allPanels.add(invoicesPanel);
+        masterPanel.setBorder(analyticsBorder);
+        masterPanel.setLayout(analyticsLayout);
+        masterPanel.setBackground(tempColor);
+        masterPanel.add(customerPanel);
+        masterPanel.add(profitsPanel);
+        masterPanel.add(revenuePanel);
+        masterPanel.add(invoicesPanel);
     }
 
     
     @Override
     public JPanel getPanel() {
-        return allPanels;
+        return masterPanel;
     }
 
     public void testPanel(){
         JFrame test = new JFrame();
         test.setSize(analyticDimension);
-        test.add(allPanels);
+        test.add(masterPanel);
         test.setVisible(true);
     }
 

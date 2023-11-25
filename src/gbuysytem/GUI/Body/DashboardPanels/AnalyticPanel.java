@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
 import gbuysytem.GUI.Body.fonts.GbuyFonts;
 
 public class AnalyticPanel implements PanelReturner{
@@ -35,7 +36,7 @@ public class AnalyticPanel implements PanelReturner{
     public void setAnalyticPercent(String analyticPercent) {this.analyticPercent = analyticPercent;}
 
     //ALL PANELS MAIN CONTAINERS-------------------------
-    private JPanel allPanel;
+    private JPanel masterPanel; //this is the panel that will be returned
     private JPanel topPanel;
     private JPanel bottomPanel;
 
@@ -44,8 +45,8 @@ public class AnalyticPanel implements PanelReturner{
     private JPanel topCenter;
     private JLabel topRight;
 
-    //TOPLEFT ICON----------------------------------------
-    ImageIcon leftIcon;
+    //TOPLEFT Graphic color----------------------------------------
+    Color leftGraphicColor;
 
     //TOPRIGHT ICON--------------------------------------
     ImageIcon rightIcon;
@@ -56,105 +57,139 @@ public class AnalyticPanel implements PanelReturner{
 
     //BOTTOM PANEL COMPONENTS----------------------------
     JLabel analyticStat;
-    
-    //temporary colorpallete will change latur
-    Color allPanelcolor = Color.decode("#e7f5ff");
-    Color topPanelcolor = Color.decode("#fff9db");
-    Color bottomPanelcolor = Color.decode("#ffffff");
-    Color topLeftColor = Color.decode("#d0bfff");
-    Color topCenterColor = Color.decode("#fff5f5");
-    Color topRightColor = Color.decode("#d2bab0");
-    Color topCenterNameColor = Color.decode("#e6fcf5");
-    Color topCenterFieldColor = Color.decode("#eebefa");
-    Color analyticStatColor = Color.decode("#69db7c");
 
-    //sizes--------------------------------------------
+    //DIMENSIONS-----------------------------------------
     private Dimension analyticDimension;
     private Dimension topPanelDimension;
     private Dimension bottomPanelDimension;
 
-    public AnalyticPanel(String s, ImageIcon leftIcon, ImageIcon rightIcon, Dimension analyticDimension){
+    //FONT SIZES---------------------------------------
+    private float analyticNameFontSize = 12f;
+    private float analyticValueFontSize = 30f;
+    private float analyticPercentFontSize = 15f;
+
+    //temporary colorpallete will change latur
+    Color white = Color.decode("#FFFFFF");
+
+    Color masterPanelColor = white;
+    Color topPanelcolor = white;
+    Color bottomPanelcolor = white;
+    Color topLeftColor = white;
+    Color topCenterColor = white;
+    Color topRightColor = white;
+
+    //textColors
+    Color topCenterNameColor = white;
+    Color topCenterFieldColor = white;
+    Color analyticStatColor = Color.decode("#69db7c");
+
+    //main constructor to call in analytics class
+    public AnalyticPanel(String analyticName, Color leftGraphicColor, ImageIcon rightIcon, Dimension analyticDimension){
+
         this.analyticDimension = analyticDimension;
-        this.analyticName = s;
+        this.analyticName = analyticName;
         this.analyticValue = "null";
         this.analyticPercent = "null";
-        this.leftIcon = leftIcon;
+        this.leftGraphicColor = leftGraphicColor;
         this.rightIcon = rightIcon;
-
+        
+        //setting up sizes, initializing components, and master panel
         setSizes();
         generateComponents();
-        setupAllPanels();
+        setupMasterPanel();
+
+        //setting up components in top panel
         setupTopPanel();
+        setupTopPanelComponents();
+        setupTopCenterPanel();
+        
+        //setting up components in bottom panel
         setupBottomPanel();
-        addAlltoAllPanels();
+        
+        //add all generated components to masterpanel
+        addAlltoMasterPanel();
     }
-
-    private void generateComponents() {
-        this.allPanel = new JPanel();
-        this.topPanel = new JPanel();
-        this.bottomPanel = new JPanel();
-        this.topLeft = new JPanel();
-        this.topCenter = new JPanel();
-        this.leftIcon = null;
-        this.rightIcon = null;
-        this.analyticNameLabel = new JLabel();
-        this.analyticValueLabel = new JLabel();
-        this.analyticPercent = "null";
-        this.analyticStat = new JLabel();
-    }
-
 
     private void setSizes() {
         topPanelDimension = new Dimension(analyticDimension.width, analyticDimension.height*3/4);
         bottomPanelDimension = new Dimension(analyticDimension.width, analyticDimension.height/4);
     }
 
-    private void setFonts(JLabel jlabel, GbuyFonts gFont, float fontSize){
-        jlabel.setFont(gFont.getFont().deriveFont(fontSize));
+    private void generateComponents() {
+        this.masterPanel = new RoundedPanel();
+        setToCustomBorder((RoundedPanel) masterPanel);
+        this.topPanel = new JPanel();
+        this.bottomPanel = new JPanel();
+        this.topLeft = new JPanel();
+        this.topCenter = new JPanel();
+        this.analyticNameLabel = new JLabel();
+        this.analyticValueLabel = new JLabel();
+        this.analyticPercent = "null";
+        this.analyticStat = new JLabel();
     }
-
-    private void resizeFont(JLabel jLabel, float newSize){
-        jLabel.setFont(jLabel.getFont().deriveFont((newSize)));
-    }
-
-    private void addAlltoAllPanels() {
-        allPanel.add(topPanel);
-        allPanel.add(rigidSpacing(analyticDimension, 10));
-        allPanel.add(bottomPanel);
+    
+    private void setupMasterPanel() {
+        masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));
+        masterPanel.setBackground(masterPanelColor);
+        masterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
     private void setupTopPanel() {
         topPanel.setBackground(topPanelcolor);
         topPanel.setPreferredSize(topPanelDimension);
-        setupTopPanelComponents();
-    }
 
+    }
+    
     private void setupTopPanelComponents() {
         topPanel.setLayout(new BorderLayout(10, 10));
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        topRight = new JLabel(resizeIcon(rightIcon), JLabel.CENTER);
 
+        Dimension topLeftDimension = new Dimension(topPanelDimension.width*6/30, topPanelDimension.height);
+        Dimension topCenterDimension = new Dimension(topPanelDimension.width*14/30, topPanelDimension.height);
+        Dimension topRightDimension = new Dimension(topPanelDimension.width*10/30, topPanelDimension.height);
+
+        topLeft.setPreferredSize(topLeftDimension);
+        topCenter.setPreferredSize(topCenterDimension);
+        
+        //setup toprightpanel
+        topRight = new JLabel(resizeIcon(rightIcon), JLabel.CENTER);
+        topRight.setPreferredSize(topRightDimension);
+
+        //setup topleftpanel graphic
         topLeft.setBackground(topLeftColor);
+        JPanel topLeftGraphic = new RoundedPanel();
+        topLeftGraphic.setPreferredSize(new Dimension(6, topLeftDimension.height));
+        topLeftGraphic.setBackground(leftGraphicColor);
+        topLeft.setLayout(new FlowLayout(FlowLayout.LEADING));
+        setToCustomBorder((RoundedPanel) topLeftGraphic);
+        topLeft.add(topLeftGraphic);
+        topLeft.addComponentListener(new ComponentListener() {
+            public void componentResized(ComponentEvent e) {
+                topLeftGraphic.setPreferredSize(new Dimension(6, topLeft.getHeight()));
+                topLeft.revalidate();
+            }
+            public void componentMoved(ComponentEvent e) {
+            }
+            public void componentShown(ComponentEvent e) {
+            }
+            public void componentHidden(ComponentEvent e) {
+            }
+            
+        });
+
         topCenter.setBackground(topCenterColor);
         topRight.setBackground(topRightColor);
 
-        topLeft.setPreferredSize(new Dimension(topPanelDimension.width*6/30, topPanelDimension.height));
-        topCenter.setPreferredSize(new Dimension(topPanelDimension.width*14/30, topPanelDimension.height));
-        topRight.setPreferredSize(new Dimension(topPanelDimension.width*10/30, topPanelDimension.height));
-        
-        
-        // setIcons(topRight, rightIcon);
 
+        
         topPanel.add(topLeft, BorderLayout.WEST);
         topPanel.add(topCenter, BorderLayout.CENTER);
         topPanel.add(topRight, BorderLayout.EAST);
-
-        setupTopCenterPanel();
     }
 
     private void setupTopCenterPanel() {
         topCenter.setLayout(new BoxLayout(topCenter, BoxLayout.Y_AXIS));
-        topCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // topCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel namePanel = new JPanel();
         JPanel fieldPanel = new JPanel();
@@ -172,14 +207,14 @@ public class AnalyticPanel implements PanelReturner{
         namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         namePanel.add(analyticNameLabel);
         analyticNameLabel.setText(analyticName);
-        setFonts(analyticNameLabel, GbuyFonts.Kamerik_Book, 20f);
-        addFontResizer(namePanel, analyticNameLabel);
+        setFonts(analyticNameLabel, GbuyFonts.Kamerik_Book, analyticNameFontSize);
+        addFontResizer(namePanel, analyticNameLabel, analyticNameFontSize);
 
         fieldPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
         fieldPanel.add(analyticValueLabel);
         analyticValueLabel.setText(analyticValue);
-        setFonts(analyticValueLabel, GbuyFonts.Kamerik_Book, 30f);
-        addFontResizer(fieldPanel, analyticValueLabel);
+        setFonts(analyticValueLabel, GbuyFonts.Kamerik_Bold, analyticValueFontSize);
+        addFontResizer(fieldPanel, analyticValueLabel, analyticValueFontSize);
     }
 
     private void setupBottomPanel() {
@@ -191,19 +226,25 @@ public class AnalyticPanel implements PanelReturner{
         bottomPanel.add(analyticStat);
         
         analyticStat.setText(analyticPercent);
-        setFonts(analyticStat, GbuyFonts.Kamerik_Bold, 20f);
+        setFonts(analyticStat, GbuyFonts.Kamerik_Book, analyticPercentFontSize);
         analyticStat.setForeground(analyticStatColor);
         // addFontResizer(bottomPanel, analyticStat);
     }
 
-    private void setupAllPanels() {
-        allPanel.setLayout(new BoxLayout(allPanel, BoxLayout.Y_AXIS));
-        allPanel.setBackground(allPanelcolor);
-        allPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+    private void addAlltoMasterPanel() {
+        masterPanel.add(topPanel);
+        masterPanel.add(rigidSpacing(analyticDimension, 10));
+        masterPanel.add(bottomPanel);
     }
 
+    //HELPER methods--------------------------------------------------------
+    private void setFonts(JLabel jlabel, GbuyFonts gFont, float fontSize){
+        jlabel.setFont(gFont.getFont().deriveFont(fontSize));
+    }
 
-
+    private void resizeFont(JLabel jLabel, float newSize){
+        jLabel.setFont(jLabel.getFont().deriveFont((newSize)));
+    }
 
     private ImageIcon resizeIcon(ImageIcon icon){ //imong code carl hahahha
         if(icon != null){
@@ -215,12 +256,12 @@ public class AnalyticPanel implements PanelReturner{
         return null;
     }
 
-    private void addFontResizer(JPanel jPanel, JLabel jLabel) {
+    private void addFontResizer(JPanel jPanel, JLabel jLabel, float fontSize) {
         jPanel.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int width = jPanel.getWidth();
-                resizeFont(jLabel, width/10);
+                resizeFont(jLabel, width/15 + fontSize );   //idk arithmetic magic guro
                 jLabel.revalidate();
             }
             @Override
@@ -234,26 +275,34 @@ public class AnalyticPanel implements PanelReturner{
             }
         });
     }
-
-    @Override
-    public JPanel getPanel() {
-        return allPanel;
-    }
-
-    public void testPanel(){
-        JFrame f = new JFrame();
-        f.setSize(analyticDimension);
-        f.add(allPanel);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
-    }
-
+    
     private Component rigidSpacing(Dimension d, int height){
         return Box.createRigidArea(new Dimension(d.width, height));
     }
 
+    private void setToCustomBorder(RoundedPanel rPanel){
+        rPanel.setShady(false);
+
+        int arc = 30;
+        rPanel.setArcs(new Dimension(arc, arc));
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return masterPanel;
+    }
+
+
+    public void testPanel(){
+        JFrame f = new JFrame();
+        f.setSize(analyticDimension);
+        f.add(masterPanel);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setVisible(true);
+    }
+
     public static void main(String[] args) {
-        AnalyticPanel a = new AnalyticPanel("Customer", null, new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/customer.png", "customer icon"), new Dimension(500, 300));
+        AnalyticPanel a = new AnalyticPanel("Customer", AnalyticsPalette.CUSTOMER.getColor(), new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/customer.png", "customer icon"), new Dimension(500, 300));
         a.testPanel();
     }
 }
