@@ -26,7 +26,7 @@ public class Analytics implements PanelReturner{
     //final
     private final Border analyticsBorder = BorderFactory.createEmptyBorder(50, 50, 50, 50);
     private final GridLayout analyticsLayout = new GridLayout(0, 2, 50, 50);
-    private final Color tempColor = Color.decode("#F7F8FA");
+    private final Color backgroundColor = Color.decode("#F7F8FA");
     
     //images
     private ImageIcon customerIcon;
@@ -91,7 +91,7 @@ public class Analytics implements PanelReturner{
     }
 
     private void setSizes() {
-        panelDimension = new Dimension(analyticDimension.width/4, analyticDimension.height/4);
+        panelDimension = new Dimension(analyticDimension.width/2, analyticDimension.height/2);
     }
 
 
@@ -123,7 +123,7 @@ public class Analytics implements PanelReturner{
         customerPanel.setLayout(new BorderLayout());
         
         customerPanel.setPreferredSize(panelDimension);
-        customerPanel.setBackground(tempColor);
+        customerPanel.setBackground(backgroundColor);
         
         customerPanel.add(customerData.getPanel(), BorderLayout.CENTER);
 
@@ -133,7 +133,7 @@ public class Analytics implements PanelReturner{
         revenuePanel.setLayout(new BorderLayout());
         
         revenuePanel.setPreferredSize(panelDimension);
-        revenuePanel.setBackground(tempColor);
+        revenuePanel.setBackground(backgroundColor);
 
         revenuePanel.add(revenueData.getPanel(), BorderLayout.CENTER);
     }
@@ -143,7 +143,7 @@ public class Analytics implements PanelReturner{
         invoicesPanel.setLayout(new BorderLayout());
         
         invoicesPanel.setPreferredSize(panelDimension);
-        invoicesPanel.setBackground(tempColor);
+        invoicesPanel.setBackground(backgroundColor);
 
         invoicesPanel.add(invoicesData.getPanel(), BorderLayout.CENTER);
     }
@@ -153,7 +153,7 @@ public class Analytics implements PanelReturner{
         profitsPanel.setLayout(new BorderLayout());
 
         profitsPanel.setPreferredSize(panelDimension);
-        profitsPanel.setBackground(tempColor);
+        profitsPanel.setBackground(backgroundColor);
 
         profitsPanel.add(profitData.getPanel(), BorderLayout.CENTER);
 
@@ -163,7 +163,7 @@ public class Analytics implements PanelReturner{
     private void addAllToAllPanels(){
         masterPanel.setBorder(analyticsBorder);
         masterPanel.setLayout(analyticsLayout);
-        masterPanel.setBackground(tempColor);
+        masterPanel.setBackground(backgroundColor);
         masterPanel.add(customerPanel);
         masterPanel.add(profitsPanel);
         masterPanel.add(revenuePanel);
@@ -180,6 +180,7 @@ public class Analytics implements PanelReturner{
         JFrame test = new JFrame();
         test.setSize(analyticDimension);
         test.add(masterPanel);
+        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         test.setVisible(true);
     }
 

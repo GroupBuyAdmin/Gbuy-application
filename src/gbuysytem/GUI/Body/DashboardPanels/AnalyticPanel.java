@@ -35,7 +35,7 @@ public class AnalyticPanel implements PanelReturner{
     public void setAnalyticValue(String analyticValue) {this.analyticValue = analyticValue;}
     public void setAnalyticPercent(String analyticPercent) {this.analyticPercent = analyticPercent;}
 
-    //ALL PANELS MAIN CONTAINERS-------------------------
+    //MAIN CONTAINERS-------------------------
     private JPanel masterPanel; //this is the panel that will be returned
     private JPanel topPanel;
     private JPanel bottomPanel;
@@ -142,10 +142,10 @@ public class AnalyticPanel implements PanelReturner{
     
     private void setupTopPanelComponents() {
         topPanel.setLayout(new BorderLayout(10, 10));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        Dimension topLeftDimension = new Dimension(topPanelDimension.width*6/30, topPanelDimension.height);
-        Dimension topCenterDimension = new Dimension(topPanelDimension.width*14/30, topPanelDimension.height);
+        Dimension topLeftDimension = new Dimension(topPanelDimension.width*2/30, topPanelDimension.height);
+        Dimension topCenterDimension = new Dimension(topPanelDimension.width*18/30, topPanelDimension.height);
         Dimension topRightDimension = new Dimension(topPanelDimension.width*10/30, topPanelDimension.height);
 
         topLeft.setPreferredSize(topLeftDimension);
