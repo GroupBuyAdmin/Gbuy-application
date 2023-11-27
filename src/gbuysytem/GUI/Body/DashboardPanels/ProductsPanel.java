@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -19,6 +20,9 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 public class ProductsPanel implements PanelReturner{
+    //return instance of productPane to access products
+    private ProductPane productPane;
+
     //main containers
     private JPanel masterPanel;
     private JPanel buttonPanel;
@@ -57,7 +61,25 @@ public class ProductsPanel implements PanelReturner{
         
         setupButtonPanel();
         setupHeaderPanels();
-        
+        setupHeaderPanelTexts();
+
+        productPane = new ProductPane(listPanel.getPreferredSize());
+        productPaneTester();
+        listPanel.add(productPane.getPanel());
+        listPanel.addComponentListener(new ComponentListener() {
+            public void componentResized(ComponentEvent e) {
+                productPane.autoResizeAll(new Dimension(listPanel.getWidth(), listPanel.getHeight()), headerPanel.getPreferredSize());
+            }
+            public void componentMoved(ComponentEvent e) {}
+            public void componentShown(ComponentEvent e) {}
+            public void componentHidden(ComponentEvent e) {}
+        });
+
+        colorizeMainComponents();
+        addAllToMasterPanel();
+    }
+
+    private void setupHeaderPanelTexts() {
         image = new JLabel("Image", SwingConstants.CENTER);
         category = new JLabel("Categeory", SwingConstants.CENTER);
         price = new JLabel("Price", SwingConstants.CENTER);
@@ -71,9 +93,6 @@ public class ProductsPanel implements PanelReturner{
         quantityPanel.add(quantity);
         namePanel.add(name);
         descriptionPanel.add(description);
-
-        colorizeMainComponents();
-        addAllToMasterPanel();
     }
 
     private void setupHeaderPanels() {
@@ -138,7 +157,7 @@ public class ProductsPanel implements PanelReturner{
         //emptyPanel2 constraints
         springLayout.putConstraint(SpringLayout.WEST, emptyPanel2 , xSpring, SpringLayout.EAST, emptyPanel1);
         springLayout.putConstraint(SpringLayout.NORTH, emptyPanel2, ySpring, SpringLayout.NORTH, headerContainer);
-        springLayout.putConstraint(SpringLayout.EAST, emptyPanel2 , xSpring, SpringLayout.EAST, headerContainer);
+        springLayout.putConstraint(SpringLayout.EAST, emptyPanel2 , 20, SpringLayout.EAST, headerContainer);
         
         
         LinkedList<JPanel> allHeaderPanels = new LinkedList<>(Arrays.asList(imagePanel, categoryPanel, pricePanel, quantityPanel, namePanel, descriptionPanel, emptyPanel1, emptyPanel2));
@@ -214,10 +233,10 @@ public class ProductsPanel implements PanelReturner{
         masterPanel.addComponentListener(new ComponentListener() {
             public void componentResized(ComponentEvent e) {
                 buttonPanel.setPreferredSize(new Dimension(masterPanel.getWidth(), masterPanel.getHeight()/15));
-                buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, buttonPanel.getHeight()));
+                buttonPanel.setMaximumSize(new Dimension(masterPanel.getWidth(), buttonPanel.getHeight()));
 
                 headerPanel.setPreferredSize(new Dimension(masterPanel.getWidth(), masterPanel.getHeight()/17));
-                headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, headerPanel.getHeight()));
+                headerPanel.setMaximumSize(new Dimension(masterPanel.getWidth(), headerPanel.getHeight()));
 
                 listPanel.setPreferredSize(new Dimension(masterPanel.getWidth(), masterPanel.getHeight()*8/10));
 
@@ -243,6 +262,15 @@ public class ProductsPanel implements PanelReturner{
         return masterPanel;
     }
 
+    private void productPaneTester(){
+        LinkedList<Product> list = new LinkedList<>();
+
+        for(int i = 1; i <= 2; i++){
+            list.add(new Product("p".concat(String.valueOf(i)), headerPanel.getPreferredSize()));
+        }
+        productPane.setListOfProducts(list);
+    }
+
     public void testPanel(){
         JFrame f = new JFrame();
         f.setSize(1000,600);
@@ -255,4 +283,5 @@ public class ProductsPanel implements PanelReturner{
         ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
         p.testPanel();
     }
+
 }
