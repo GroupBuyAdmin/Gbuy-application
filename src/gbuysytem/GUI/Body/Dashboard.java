@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import gbuysytem.GUI.Body.DashboardPanels.Analytics;
 import gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
+import gbuysytem.GUI.Body.DashboardPanels.newProductsPanel.ProductsContainer;
 
 public class Dashboard extends JPanel{
     private ProductsPanel productsPanel;
@@ -20,6 +21,10 @@ public class Dashboard extends JPanel{
         analyticsPanel = new Analytics(dashBoardSize);
 
         add(analyticsPanel.getPanel(), BorderLayout.CENTER);
-        add(productsPanel.getPanel(), BorderLayout.CENTER);
+        // add(productsPanel.getPanel(), BorderLayout.CENTER);
+
+
+        ProductsContainer p = new ProductsContainer(dashBoardSize);
+        add(p.getPanel(), BorderLayout.CENTER);
     }  
 } 
