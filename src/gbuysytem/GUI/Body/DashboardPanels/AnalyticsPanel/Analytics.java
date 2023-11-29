@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels;
+package gbuysytem.GUI.Body.DashboardPanels.AnalyticsPanel;
 
 
 import java.awt.BorderLayout;
@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
 
 //use getPanel() method to return instance of panel
@@ -84,10 +85,10 @@ public class Analytics implements PanelReturner{
     }
 
     private void generateIcons() {
-        this.customerIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/customer.png", "customer icon");
-        this.revenueIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/revenue.png", "revenue icon");
-        this.profitsIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/profits.png", "profits icon");
-        this.invoicesIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/img/invoice.png", "invoices icon");
+        this.customerIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/customer.png", "customer icon");
+        this.revenueIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/revenue.png", "revenue icon");
+        this.profitsIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/profits.png", "profits icon");
+        this.invoicesIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/invoice.png", "invoices icon");
     }
 
     private void setSizes() {

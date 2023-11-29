@@ -10,8 +10,6 @@ import gbuysytem.GUI.Mainframe;
 
 public class GBuySytem {
     public static void main(String[] args) {
-        // System.out.println("test");
-        // System.out.println("test pull from main to other branch");
         SwingUtilities.invokeLater(new 
         Runnable() {
             @Override

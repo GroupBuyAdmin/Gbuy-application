@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels;
+package gbuysytem.GUI.Body.DashboardPanels.AnalyticsPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
+import gbuysytem.GUI.Body.DashboardPanels.RoundedPanel;
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
 import gbuysytem.GUI.Body.fonts.CustomFont;
 

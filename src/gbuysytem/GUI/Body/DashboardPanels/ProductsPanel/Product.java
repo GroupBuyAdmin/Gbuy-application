@@ -21,6 +21,7 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
     }
+
     public ImageIcon getImageIcon() {
         return imageIcon;
     }

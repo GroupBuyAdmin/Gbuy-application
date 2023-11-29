@@ -1,8 +1,7 @@
 package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
-
 import javax.swing.*;
 
-import gbuysytem.GUI.Body.DashboardPanels.CustomButton;
+import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.RoundedButton;
 import gbuysytem.GUI.Body.fonts.CustomFont;
 
@@ -12,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsPanelTest {
+public class ProductsPanel implements PanelReturner{
     private JPanel masterPanel;
     private JPanel scrollablePanel;
     private JScrollPane scrollPane;
@@ -21,7 +20,7 @@ public class ProductsPanelTest {
     private final Color scrollablePanelColor = Color.decode("#FFFFFF");
     private final Color gridColor = Color.decode("#EEF0F3");
 
-    public ProductsPanelTest(Dimension masterPanelDimension) {
+    public ProductsPanel(Dimension masterPanelDimension) {
         masterPanel = new JPanel();
         masterPanel.setPreferredSize(masterPanelDimension);
 
@@ -36,11 +35,18 @@ public class ProductsPanelTest {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createLineBorder(gridColor));
         scrollPane.setBackground(scrollablePanelColor);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
   
-
-
-        setupHeaderPanel();                                                                 //setup HeaderPanel for scrollpane
+        setupHeaderPanel();                                                                 
         
+        ButtonPanels buttonPanels = getButtonPanels();                                      
+
+        masterPanel.setLayout(new BorderLayout());
+        masterPanel.add(buttonPanels, BorderLayout.NORTH);
+        masterPanel.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private ButtonPanels getButtonPanels() {
         RoundedButton addButton = new RoundedButton("+  add product");
         addButton.setButtonColor(Color.blue);
         addButton.setForeground(Color.WHITE);
@@ -54,11 +60,8 @@ public class ProductsPanelTest {
         filterButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
 
         ButtonPanels buttonPanels = new ButtonPanels(filterButton, addButton);
-        setupButtonPanelBehaviour(addButton, filterButton);                                 //MODIFY BUTTON BEHAVIORS HERE
-
-        masterPanel.setLayout(new BorderLayout());
-        masterPanel.add(buttonPanels, BorderLayout.NORTH);
-        masterPanel.add(scrollPane, BorderLayout.CENTER);
+        setupButtonPanelBehaviour(addButton, filterButton);
+        return buttonPanels;
     }
 
     private void setupButtonPanelBehaviour(JButton addButton, JButton filterButton) {
@@ -84,32 +87,14 @@ public class ProductsPanelTest {
         });
     }
 
-
-    private void setupHeaderPanel() {
-        String[] headerNames = {"Image", "Name", "Price", "Quantity", "Category", "Description", "Controls"};
-        HeaderPanel headerPanel = new HeaderPanel(headerNames);
-        scrollPane.setColumnHeaderView(headerPanel);
-    }
-
-
-    private void addDashboardItem(Product p) {
-        RoundedButton deleteButton = new RoundedButton("Delete");
-        deleteButton.setButtonColor(Color.red);
-        deleteButton.setForeground(Color.white);
-        deleteButton.setDrawBorder(false);
-        deleteButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
-
-        RoundedButton editButton = new RoundedButton("Edit");
-        editButton.setButtonColor(Color.BLUE);
-        editButton.setForeground(Color.white);
-        editButton.setDrawBorder(false);
-        editButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
-
-        DashboardItemPanel itemPanel = new DashboardItemPanel(p, editButton, deleteButton);
-        
+    private void setupItemPanelButtonListener(RoundedButton deleteButton, RoundedButton editButton, DashboardItemPanel itemPanel) {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
+                //implement delete algo here
+                
                 deleteDashboardItem(itemPanel);
                 updateDashboard();
             }
@@ -118,17 +103,48 @@ public class ProductsPanelTest {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                //implement edit algo here
+
+
                 editDashboardItem(itemPanel);
                 updateDashboard();
             }
         });
+    }
 
-        itemPanel.add(deleteButton);
-        itemPanel.add(editButton);
+    private void setupHeaderPanel() {
+        String[] headerNames = {"Image", "Name", "Price", "Quantity", "Category", "Description", "Controls"};
+        HeaderPanel headerPanel = new HeaderPanel(headerNames);
+        scrollPane.setColumnHeaderView(headerPanel);
+    }
+
+    private void addDashboardItem(Product p) {
+        Color deleteButtonColor = Color.decode("#E55A4F");
+        Color editButtonColor = Color.decode("#49C0E5");
+
+
+        RoundedButton deleteButton = new RoundedButton("Delete");
+        deleteButton.setButtonColor(deleteButtonColor);
+        deleteButton.setForeground(Color.white);
+        deleteButton.setDrawBorder(false);
+        deleteButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+
+        RoundedButton editButton = new RoundedButton("Edit");
+        editButton.setButtonColor(editButtonColor);
+        editButton.setForeground(Color.white);
+        editButton.setDrawBorder(false);
+        editButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+
+        DashboardItemPanel itemPanel = new DashboardItemPanel(p, editButton, deleteButton);
+        
+        setupItemPanelButtonListener(deleteButton, editButton, itemPanel);
+
         itemPanels.add(itemPanel);
 
         updateDashboard();
     }
+
 
     private void deleteDashboardItem(DashboardItemPanel itemPanel) {
         System.out.println("deleteing itemPanel at row " + itemPanels.indexOf(itemPanel));
@@ -154,6 +170,11 @@ public class ProductsPanelTest {
     }
 
 
+    @Override
+    public JPanel getPanel() {
+        return masterPanel;
+    }
+
     public void testPanel(){
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,57 +184,13 @@ public class ProductsPanelTest {
     }
 
     public static void main(String[] args) {
-        ProductsPanelTest p = new ProductsPanelTest(new Dimension(1000, 600));
+        ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
         p.testPanel();
     }
+
+
 }
 
-//for customization
-class DashboardItemPanel extends JPanel {
-    private final Color dashboardItemPanelColor = Color.decode("#FFFFFF");
-    private final Color gridColor = Color.decode("#EEF0F3");
-
-    public DashboardItemPanel(Product product, JButton editButton, JButton deleteButton) {
-        setPreferredSize(new Dimension(50, 50)); // Set a fixed size for each item
-        setMaximumSize(new Dimension(Short.MAX_VALUE, 50)); // Ensure a fixed height
-        setBorder(BorderFactory.createLineBorder(gridColor));
-        setBackground(dashboardItemPanelColor);
-
-        setLayout(new GridLayout(1,0));
-
-        add(createIcon(product.getImageIcon()));
-        add(createCenteredLabel(product.getName()));
-        add(createCenteredLabel(product.getCategory()));
-        add(createCenteredLabel(product.getPrice()));
-        add(createCenteredLabel(product.getQuantity()));
-        add(createCenteredLabel(product.getDescription()));
-        add(deleteButton);
-        add(editButton);
-    }
-    
-    private JPanel createCenteredLabel(String text) {
-        JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15,15));
-        JLabel label = new JLabel(text);
-        labelPanel.setBackground(dashboardItemPanelColor);
-        label.setFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
-        labelPanel.add(label);
-        return labelPanel;
-    }
-
-    private JPanel createIcon(ImageIcon imageIcon){
-        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 9));
-        iconPanel.setBackground(dashboardItemPanelColor);
-        //change if it is image or image icon...for now from image to image icon
-        Image i = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        ImageIcon scaledImageIcon = new ImageIcon(i);
-
-        JLabel iconLabel = new JLabel();
-        iconLabel.setIcon(scaledImageIcon);
-
-        iconPanel.add(iconLabel);
-        return iconPanel;
-    }
-}
 
 
 
