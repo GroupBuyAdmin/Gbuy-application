@@ -28,9 +28,9 @@ public class DashboardItemPanel extends JPanel {
         setLayout(new GridLayout(1,8));
         add(createIcon(product.getImageIcon()));
         add(createPanelWithLabel(product.getName()));
-        add(createPanelWithLabel(product.getCategory()));
         add(createPanelWithLabel(product.getPrice()));
         add(createPanelWithLabel(product.getQuantity()));
+         add(createPanelWithLabel(product.getCategory()));
         add(createPanelWithLabel(product.getDescription()));
         add(createButtonPanel(deleteButton));
         add(createButtonPanel(editButton));

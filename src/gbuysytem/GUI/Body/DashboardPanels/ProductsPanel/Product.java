@@ -11,8 +11,7 @@ public class Product {
     private String quantity;
     private String description;
 
-    public Product(ImageIcon imageIcon, String name, String category, String price, String quantity,
-            String description) {
+    public Product(ImageIcon imageIcon, String name, String price, String quantity, String category, String description) {
 
         this.imageIcon = imageIcon;
         this.name = name;
