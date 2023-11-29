@@ -1,67 +1,61 @@
-package gbuysytem.GUI.Body.DashboardPanels.newProductsPanel;
+package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 
-public class SingleProduct {
-    private String image;
+
+import javax.swing.ImageIcon;
+
+public class Product {
+    private ImageIcon imageIcon;
+    private String name;
     private String category;
     private String price;
     private String quantity;
-    private String name;
     private String description;
 
-    public SingleProduct(String name, String price){
-        this.image = "null";
-        this.category = "null";
-        this.price = price;
-        this.quantity = "null";
+    public Product(ImageIcon imageIcon, String name, String category, String price, String quantity,
+            String description) {
+
+        this.imageIcon = imageIcon;
         this.name = name;
-        this.description = "null";
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
         this.quantity = quantity;
+        this.description = description;
     }
-
+    public ImageIcon getImageIcon() {
+        return imageIcon;
+    }
+    public void setImageIcon(ImageIcon imageIcon) {
+        this.imageIcon = imageIcon;
+    }
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    public String getPrice() {
+        return price;
+    }
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    public String getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

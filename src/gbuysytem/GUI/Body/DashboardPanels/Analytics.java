@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;

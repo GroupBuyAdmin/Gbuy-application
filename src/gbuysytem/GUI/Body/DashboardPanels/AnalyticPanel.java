@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
-import gbuysytem.GUI.Body.fonts.GbuyFonts;
+import gbuysytem.GUI.Body.fonts.CustomFont;
 
 public class AnalyticPanel implements PanelReturner{
     //main attributes
@@ -207,13 +207,13 @@ public class AnalyticPanel implements PanelReturner{
         namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         namePanel.add(analyticNameLabel);
         analyticNameLabel.setText(analyticName);
-        setFonts(analyticNameLabel, GbuyFonts.Kamerik_Book, analyticNameFontSize);
+        setFonts(analyticNameLabel, CustomFont.Kamerik_Book, analyticNameFontSize);
         addFontResizer(namePanel, analyticNameLabel, analyticNameFontSize);
 
         fieldPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
         fieldPanel.add(analyticValueLabel);
         analyticValueLabel.setText(analyticValue);
-        setFonts(analyticValueLabel, GbuyFonts.Kamerik_Bold, analyticValueFontSize);
+        setFonts(analyticValueLabel, CustomFont.Kamerik_Bold, analyticValueFontSize);
         addFontResizer(fieldPanel, analyticValueLabel, analyticValueFontSize);
     }
 
@@ -226,7 +226,7 @@ public class AnalyticPanel implements PanelReturner{
         bottomPanel.add(analyticStat);
         
         analyticStat.setText(analyticPercent);
-        setFonts(analyticStat, GbuyFonts.Kamerik_Book, analyticPercentFontSize);
+        setFonts(analyticStat, CustomFont.Kamerik_Book, analyticPercentFontSize);
         analyticStat.setForeground(analyticStatColor);
         // addFontResizer(bottomPanel, analyticStat);
     }
@@ -238,7 +238,7 @@ public class AnalyticPanel implements PanelReturner{
     }
 
     //HELPER methods--------------------------------------------------------
-    private void setFonts(JLabel jlabel, GbuyFonts gFont, float fontSize){
+    private void setFonts(JLabel jlabel, CustomFont gFont, float fontSize){
         jlabel.setFont(gFont.getFont().deriveFont(fontSize));
     }
 
