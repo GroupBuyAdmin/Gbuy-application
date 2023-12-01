@@ -79,6 +79,13 @@ public class ProductsPanel implements PanelReturner{
             }
         });
 
+          //dummy product added, remove this part 
+                String dummyImage = "src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/dummyImage.png";
+                System.out.println("Add product button clicked!");
+                Product p = new Product(new ImageIcon(dummyImage), "null", "null", "null", "null", "null");
+                //-----------------------------------------------------------------------------------------
+
+                addDashboardItem(p);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
