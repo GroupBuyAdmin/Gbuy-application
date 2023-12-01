@@ -22,6 +22,9 @@ public class Dashboard extends JPanel{
 
         //if mahimo pre pwede nimo imodify ang layout sa dashboardItemPanel og HeaderPanel 
         //ako giset to gridlayout man gud kay naglibog kos gridbag hahahahah
+        
+        //  sige  
+        //  -carl
 
         add(analyticsPanel.getPanel(), BorderLayout.CENTER);            //use getPanel() method lang
         add(productsPanel.getPanel(),BorderLayout.CENTER);

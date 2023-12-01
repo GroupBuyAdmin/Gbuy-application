@@ -30,7 +30,7 @@ public class DashboardItemPanel extends JPanel {
         add(createPanelWithLabel(product.getName()));
         add(createPanelWithLabel(product.getPrice()));
         add(createPanelWithLabel(product.getQuantity()));
-         add(createPanelWithLabel(product.getCategory()));
+        add(createPanelWithLabel(product.getCategory()));
         add(createPanelWithLabel(product.getDescription()));
         add(createButtonPanel(deleteButton));
         add(createButtonPanel(editButton));

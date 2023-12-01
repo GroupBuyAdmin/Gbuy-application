@@ -103,8 +103,8 @@ public class ProductsPanel implements PanelReturner{
             while (resultSet.next()) {
                 String name = resultSet.getString("name");    
                 String cat = resultSet.getString("category");
-                float price = resultSet.getFloat("price");
-                int qty = resultSet.getInt("quantity");
+                String price = resultSet.getString("price");
+                String qty = resultSet.getString("quantity");
                 String detail = resultSet.getString("details");
                 byte[] imageData = resultSet.getBytes("image");
     
@@ -112,7 +112,7 @@ public class ProductsPanel implements PanelReturner{
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
                 ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageData).getImage());  
      
-                Product p = new Product(imageIcon, name,  price+"", qty+"",cat, detail);
+                Product p = new Product(imageIcon, name,  price, qty,cat, detail);
                 addDashboardItem(p);
               
               
@@ -228,10 +228,10 @@ public class ProductsPanel implements PanelReturner{
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
-        p.testPanel();
-    }
+    // public static void main(String[] args) {
+    //     ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
+    //     p.testPanel();
+    // }
 
 
 }
@@ -504,7 +504,7 @@ class CreateProductPopUp extends JFrame{
 
             System.out.println("Data inserted successfully!");
 
-            
+       
 
         } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
