@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -76,15 +79,18 @@ public class ProductsPanel implements PanelReturner{
     }
 
     private void setupButtonPanelBehaviour(JButton addButton, JButton filterButton) {
-        
-        addButton.addActionListener(new ActionListener() {
+
+         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
              CreateProductPopUp popUp = new CreateProductPopUp(ProductsPanel.this);
-             popUp.PopUp();    
+             popUp.PopUp();
+             
+               
             }
         });
 
+        
 
         String url = "jdbc:mysql://localhost:3306/gbuy";
         String username = "root";
@@ -114,7 +120,9 @@ public class ProductsPanel implements PanelReturner{
                 ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageData).getImage());  
      
                 Product p = new Product(imageIcon, name,  price, qty,cat, detail);
-                addDashboardItem(p);        
+                addDashboardItem(p);
+              
+              
             }
 
         } catch (SQLException e) {
@@ -229,10 +237,12 @@ public class ProductsPanel implements PanelReturner{
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
-        p.testPanel();
-    }
+    // public static void main(String[] args) {
+    //     ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
+    //     p.testPanel();
+    // }
+
+
 }
 
 
