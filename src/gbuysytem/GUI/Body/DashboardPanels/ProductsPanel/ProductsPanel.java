@@ -1,8 +1,8 @@
 package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 import javax.swing.*;
 
-import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
-import gbuysytem.GUI.Body.DashboardPanels.RoundedButton;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
 import gbuysytem.GUI.Body.fonts.CustomFont;
 
 import java.awt.*;

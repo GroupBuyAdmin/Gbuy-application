@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels;
+package gbuysytem.GUI.Body.DashboardPanels.Misc;
 
 import javax.swing.JPanel;
 
