@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette.AnalyticsPalette;
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 
 public class Analytics implements PanelReturner{
@@ -23,19 +23,17 @@ public class Analytics implements PanelReturner{
         masterPanel.setPreferredSize(dimension);
         masterPanel.setLayout(new BorderLayout());
         
-        GridLayout layout = new GridLayout(0, 2);
+        GridLayout layout = new GridLayout(0, 2, 50, 50);
         JPanel analyticContainer = new JPanel();
         analyticContainer.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         analyticContainer.setLayout(layout);
-        layout.setHgap(20);
-        layout.setVgap(20);
-
+ 
         ImageIcon customerIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/customer.png", "customer icon");
         ImageIcon revenueIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/revenue.png", "revenue icon");
         ImageIcon profitsIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/profits.png", "profits icon");
         ImageIcon invoicesIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/invoice.png", "invoices icon");
 
-        Dimension panelDimension = new Dimension(500, 300);
+        Dimension panelDimension = new Dimension(250, 150);
 
   
         AnalyticsPanel customerPanel = new AnalyticsPanel("Customer", AnalyticsPalette.CUSTOMER.getColor(), customerIcon, panelDimension);

@@ -12,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gbuysytem.GUI.Body.fonts.CustomFont;
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
+import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 
 public class DashboardItemPanel extends JPanel {
@@ -39,7 +40,8 @@ public class DashboardItemPanel extends JPanel {
     private JPanel createPanelWithLabel(String text) {
         JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 15));
         JLabel label = new JLabel(text);
-        label.setFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+        label.setFont(GbuyFont.MULI_LIGHT.deriveFont(14f));
+        label.setForeground(GBuyPalette.CUSTOM_BLACK);
         labelPanel.setBackground(dashboardItemPanelColor);
         labelPanel.add(label);
         return labelPanel;
@@ -61,7 +63,7 @@ public class DashboardItemPanel extends JPanel {
     }
 
     private JPanel createButtonPanel(JButton button) {
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 10));
         buttonPanel.setBackground(dashboardItemPanelColor);
         buttonPanel.add(button);
         button.setPreferredSize(new Dimension(100, 30));

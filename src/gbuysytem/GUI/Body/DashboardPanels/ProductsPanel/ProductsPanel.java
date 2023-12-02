@@ -1,17 +1,15 @@
 package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 import javax.swing.*;
 
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
-import gbuysytem.GUI.Body.fonts.CustomFont;
+import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -55,21 +53,26 @@ public class ProductsPanel implements PanelReturner{
         masterPanel.setLayout(new BorderLayout());
         masterPanel.add(buttonPanels, BorderLayout.NORTH);
         masterPanel.add(scrollPane, BorderLayout.CENTER);
+
+        addDummyPanels();
     }
  
     private ButtonPanels getButtonPanels() {
-        RoundedButton addButton = new RoundedButton("+  add product");
+        ImageIcon resizedPlusButton = resizeIconForButton("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/white plus icon.png");
+        RoundedButton addButton = new RoundedButton("add product", resizedPlusButton);
         addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        addButton.setButtonColor(Color.blue);
+        addButton.setButtonColor(GBuyPalette.CUSTOM_BLUE);
         addButton.setForeground(Color.WHITE);
         addButton.setDrawBorder(false);
-        addButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));      
+        addButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));      
 
-        RoundedButton filterButton = new RoundedButton("Filter");
+        ImageIcon resizedFilterIcon = resizeIconForButton("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/filter.png");
+        RoundedButton filterButton = new RoundedButton("Filter", resizedFilterIcon);
+        filterButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         filterButton.setButtonColor(Color.white);
         filterButton.setForeground(Color.BLACK);
-        filterButton.setBorderColor(Color.gray);
-        filterButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+        filterButton.setBorderColor(GBuyPalette.CUSTOM_LIGHT_GRAY);
+        filterButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
 
         ButtonPanels buttonPanels = new ButtonPanels(filterButton, addButton);
         setupButtonPanelBehaviour(addButton, filterButton);
@@ -78,19 +81,21 @@ public class ProductsPanel implements PanelReturner{
         return buttonPanels;
     }
 
-    private void setupButtonPanelBehaviour(JButton addButton, JButton filterButton) {
+    private ImageIcon resizeIconForButton(String imagePath) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image resizedImage = icon.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        return resizedIcon;
+    }
 
+    private void setupButtonPanelBehaviour(JButton addButton, JButton filterButton) {
          addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             CreateProductPopUp popUp = new CreateProductPopUp(ProductsPanel.this);
-             popUp.PopUp();
-             
-               
+                CreateProductPopUp popUp = new CreateProductPopUp(ProductsPanel.this);
+                popUp.PopUp();
             }
         });
-
-        
 
         String url = "jdbc:mysql://localhost:3306/gbuy";
         String username = "root";
@@ -121,14 +126,12 @@ public class ProductsPanel implements PanelReturner{
      
                 Product p = new Product(imageIcon, name,  price, qty,cat, detail);
                 addDashboardItem(p);
-              
-              
+                updateDashboard();
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         filterButton.addActionListener(new ActionListener() {
             @Override
@@ -143,8 +146,6 @@ public class ProductsPanel implements PanelReturner{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 //implement delete algo here
                 
                 deleteDashboardItem(itemPanel);
@@ -172,23 +173,23 @@ public class ProductsPanel implements PanelReturner{
     }
 
     public void addDashboardItem(Product p) {
-        Color deleteButtonColor = Color.decode("#E55A4F");
-        Color editButtonColor = Color.decode("#49C0E5");
 
+        Color deleteButtonColor = GBuyPalette.CUSTOM_RED;
+        Color editButtonColor = GBuyPalette.CUSTOM_YELLOW;
 
         RoundedButton deleteButton = new RoundedButton("Delete");
         deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         deleteButton.setButtonColor(deleteButtonColor);
         deleteButton.setForeground(Color.white);
         deleteButton.setDrawBorder(false);
-        deleteButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+        deleteButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
 
         RoundedButton editButton = new RoundedButton("Edit");
         editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         editButton.setButtonColor(editButtonColor);
         editButton.setForeground(Color.white);
         editButton.setDrawBorder(false);
-        editButton.setButtonFont(CustomFont.Franca_Medium.getFont().deriveFont(14f));
+        editButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
 
         DashboardItemPanel itemPanel = new DashboardItemPanel(p, editButton, deleteButton);
         
@@ -215,7 +216,6 @@ public class ProductsPanel implements PanelReturner{
         scrollablePanel.removeAll();
 
         for(DashboardItemPanel dashboardItem : itemPanels){
-            // scrollablePanel.add(Box.createVerticalStrut(5));
             scrollablePanel.add(dashboardItem);
         }
 
@@ -223,10 +223,17 @@ public class ProductsPanel implements PanelReturner{
         scrollablePanel.repaint();
     }
 
-
     @Override
     public JPanel getPanel() {
         return masterPanel;
+    }
+
+    private void addDummyPanels(){
+        int dummyPanelCount = 10;
+        ImageIcon dummyImage = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/dummyImage.png");
+        for(int i = 0; i < dummyPanelCount; i++){
+            addDashboardItem(new Product(dummyImage, "null", "null", "null", "null", "null"));
+        }
     }
 
     public void testPanel(){
@@ -237,12 +244,10 @@ public class ProductsPanel implements PanelReturner{
         f.setVisible(true);
     }
 
-    // public static void main(String[] args) {
-    //     ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
-    //     p.testPanel();
-    // }
-
-
+    public static void main(String[] args) {
+        ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
+        p.testPanel();
+    }
 }
 
 

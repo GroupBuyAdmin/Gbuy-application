@@ -18,5 +18,4 @@ public class GBuySytem {
             }
         });
     }
-    // merge to main
 }

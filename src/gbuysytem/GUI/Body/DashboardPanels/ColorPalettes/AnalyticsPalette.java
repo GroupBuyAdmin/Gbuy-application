@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.AnalyticsColorPalette;
+package gbuysytem.GUI.Body.DashboardPanels.ColorPalettes;
 
 import java.awt.Color;
 

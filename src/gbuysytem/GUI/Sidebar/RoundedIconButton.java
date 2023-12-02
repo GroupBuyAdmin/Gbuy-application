@@ -1,43 +1,36 @@
-package gbuysytem.GUI.Body.DashboardPanels.Misc;
+package gbuysytem.GUI.Sidebar;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class RoundedButton extends JButton {
+public class RoundedIconButton extends JButton {
 
-    protected Color buttonColor;
-    protected Color hoverColor;
-    protected Color pressedColor;
-    private Color borderColor;
+    private Color buttonColor;
+    private Color hoverColor;
+    private Color pressedColor;
     private Font buttonFont;
-    private boolean drawBorder;
-    protected int cornerRadius;
+    private ImageIcon icon;
+    private int cornerRadius;
 
-    public RoundedButton(String text) {
+    public RoundedIconButton(String text) {
         super(text);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
-        this.borderColor = Color.black;
-        this.drawBorder = true;
-        this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        setContentAreaFilled(false);
         updateHoverColor();
         updatePressedColor();
     }
-    public RoundedButton(String text, ImageIcon imageIcon) {
-        super(text, imageIcon);
+
+    public RoundedIconButton(String text, ImageIcon icon){
+        super(text, icon);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
-        this.borderColor = Color.black;
-        this.drawBorder = true;
-        this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        setContentAreaFilled(false);
         updateHoverColor();
         updatePressedColor();
     }
@@ -60,24 +53,8 @@ public class RoundedButton extends JButton {
         updatePressedColor();
     }
 
-    public void setHoverColor(Color hoverColor) {
-        this.hoverColor = hoverColor;
-    }
-
-    public void setPressedColor(Color pressedColor) {
-        this.pressedColor = pressedColor;
-    }
-
     public void setCornerRadius(int cornerRadius) {
         this.cornerRadius = cornerRadius;
-    }
-
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public void setDrawBorder(boolean drawBorder) {
-        this.drawBorder = drawBorder;
     }
 
     public void setButtonFont(Font buttonFont) {
@@ -100,17 +77,18 @@ public class RoundedButton extends JButton {
 
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
+        // if (icon != null) {
+        //     int iconX = (getWidth() - icon.getIconWidth()) / 2;
+        //     int iconY = (getHeight() - icon.getIconHeight()) / 2;
+        //     icon.paintIcon(this, g2, iconX, iconY);
+        // }
+
         super.paintComponent(g);
     }
 
     @Override
     protected void paintBorder(Graphics g) {
-        if (drawBorder) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(borderColor);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
-        }
+        // You can implement border painting if needed
     }
 
     @Override
