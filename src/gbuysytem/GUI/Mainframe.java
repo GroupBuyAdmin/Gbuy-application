@@ -15,8 +15,8 @@ public class Mainframe extends JFrame{
     public Mainframe(){
         super("GBuy");
            
-        body = new Content();
         sidebar = new Sidebar();
+        body = new Content(sidebar);
         setDashboardLayout();  
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -28,10 +28,13 @@ public class Mainframe extends JFrame{
         add(sidebar,BorderLayout.WEST);
         add(body,BorderLayout.CENTER);
         
-        
-        setSize(1300,700);
+        setSize(1440,800);
         setVisible(true);
         setLocationRelativeTo(null);
 
+    }
+
+    public Sidebar getSideBar(){
+        return sidebar;
     }
 }

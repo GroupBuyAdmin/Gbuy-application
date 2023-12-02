@@ -14,7 +14,7 @@ import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 public class ButtonPanels extends JPanel{
     private final Color buttonPanelColor = Color.decode("#FFFFFF");
-    private final Color gridColor = Color.decode("#EEF0F3");
+    private final Color gridColor = Color.decode("#FFFFFF");
 
     public ButtonPanels(JButton filter, JButton createProduct){
         setPreferredSize(new Dimension(Short.MAX_VALUE,50));
@@ -23,19 +23,24 @@ public class ButtonPanels extends JPanel{
         JLabel title = new JLabel("Products List");
         title.setFont(GbuyFont.MULI_BOLD.deriveFont(20f));
 
-
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
         JPanel titlePanel = new JPanel();
+        title.setOpaque(false);
         titlePanel.setBackground(buttonPanelColor);
         titlePanel.add(title);
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttons = new JPanel();
+        FlowLayout flow = new FlowLayout(FlowLayout.CENTER, 10, 10);
+        buttons.setOpaque(false);
+        buttons.setLayout(flow);
         buttons.setBackground(buttonPanelColor);
         buttons.add(filter);
         buttons.add(createProduct);
-
+        
         add(titlePanel, BorderLayout.WEST);
         add(buttons, BorderLayout.EAST);
     }
+
 }

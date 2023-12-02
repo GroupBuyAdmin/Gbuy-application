@@ -5,7 +5,7 @@
 package gbuysytem;
 
 import javax.swing.SwingUtilities;
-
+ 
 import gbuysytem.GUI.Mainframe;
 
 public class GBuySytem {

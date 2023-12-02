@@ -11,7 +11,7 @@ import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 class HeaderPanel extends JPanel {
-    private final Color headerPanelColor = GBuyPalette.CUSTOM_BLUE;
+    private final Color headerPanelColor = Color.decode("#F6F6F6");
 
     public HeaderPanel(String[] headerNames) {
         setBackground(headerPanelColor);
@@ -23,15 +23,17 @@ class HeaderPanel extends JPanel {
         // Add an additional empty panel at the end
         JPanel emptyPanel = new JPanel();
         emptyPanel.setOpaque(false);
+        
+        
         add(emptyPanel);
     }
 
     private JPanel createPanelWithLabel(String text) {
         JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 15));
         JLabel label = new JLabel(text);
-        label.setForeground(Color.white);
+        label.setForeground(GBuyPalette.CUSTOM_BLUE);
         label.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
-        labelPanel.setBackground(headerPanelColor);
+        labelPanel.setOpaque(false);
         labelPanel.add(label);
         return labelPanel;
     }

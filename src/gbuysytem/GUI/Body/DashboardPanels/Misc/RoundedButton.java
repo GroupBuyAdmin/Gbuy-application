@@ -19,25 +19,25 @@ public class RoundedButton extends JButton {
     private boolean drawBorder;
     protected int cornerRadius;
 
-    public RoundedButton(String text) {
+    public RoundedButton(String text) { //make button with text only
         super(text);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
         this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
     }
-    public RoundedButton(String text, ImageIcon imageIcon) {
+    public RoundedButton(String text, ImageIcon imageIcon) {    //make button with icon and text
         super(text, imageIcon);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
         this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
     }

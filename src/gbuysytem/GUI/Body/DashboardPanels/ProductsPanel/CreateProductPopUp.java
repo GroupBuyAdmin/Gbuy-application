@@ -41,11 +41,9 @@ public class CreateProductPopUp  extends JFrame{
     private  JFileChooser fileChooser;
     private JComboBox empCombo;
 
-   private ProductsPanel productsPanel;
+    private ProductsPanel productsPanel;
     
     public CreateProductPopUp(ProductsPanel productsPanel){
-        
-        
         setLayout(new BorderLayout());  
         setSize(800,500);
        
@@ -55,7 +53,7 @@ public class CreateProductPopUp  extends JFrame{
         add(displayImage(),BorderLayout.CENTER);
         add(Inputs(),BorderLayout.EAST);
 
-      this.productsPanel = productsPanel;
+        this.productsPanel = productsPanel;
         
     }
    
@@ -312,12 +310,18 @@ public class CreateProductPopUp  extends JFrame{
         setVisible(true);
     }
 
-   public void erase() {
+    public void erase() {
         nameField.setText("");
         priceField.setText("");
         qtyField.setText("");
         detailsArea.setText("");
         imageLabel.setIcon(null);
     }
+
+    // public static void main(String[] args) {
+    //     ProductsPanel p = new ProductsPanel();
+    //     CreateProductPopUp cpp = new CreateProductPopUp(p);
+    //     cpp.PopUp();
+    // }
 
 }

@@ -25,7 +25,7 @@ public class Analytics implements PanelReturner{
         
         GridLayout layout = new GridLayout(0, 2, 50, 50);
         JPanel analyticContainer = new JPanel();
-        analyticContainer.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        analyticContainer.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         analyticContainer.setLayout(layout);
  
         ImageIcon customerIcon = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/AnalyticsPanel/img/customer.png", "customer icon");

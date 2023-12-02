@@ -4,6 +4,7 @@ import javax.swing.*;
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedPanel;
 import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 import java.awt.*;
@@ -25,32 +26,37 @@ public class ProductsPanel implements PanelReturner{
     private List<DashboardItemPanel> itemPanels;
 
     private final Color scrollablePanelColor = Color.decode("#FFFFFF");
-    private final Color gridColor = Color.decode("#EEF0F3");
+    private final Color gridColor = Color.decode("#FFFFFF");
+    // private final Color gridColor = Color.decode("#EEF0F3");
 
     public ProductsPanel(){}
 
     public ProductsPanel(Dimension masterPanelDimension) {
-        masterPanel = new JPanel();
+        masterPanel = new RoundedPanel();
+        setToCustomBorder((RoundedPanel) masterPanel);
         masterPanel.setPreferredSize(masterPanelDimension);
 
         itemPanels = new ArrayList<>();
 
         scrollablePanel = new JPanel();
+
         scrollablePanel.setLayout(new BoxLayout(scrollablePanel, BoxLayout.Y_AXIS)); 
         scrollablePanel.setBorder(BorderFactory.createLineBorder(gridColor));
         scrollablePanel.setBackground(scrollablePanelColor);
 
         scrollPane = new JScrollPane(scrollablePanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBorder(BorderFactory.createLineBorder(gridColor));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBackground(scrollablePanelColor);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-  
+        
         setupHeaderPanel();                                                                 
         
         ButtonPanels buttonPanels = getButtonPanels();                                      
 
         masterPanel.setLayout(new BorderLayout());
+        masterPanel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
+        masterPanel.setBackground(scrollablePanelColor);
         masterPanel.add(buttonPanels, BorderLayout.NORTH);
         masterPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -223,6 +229,13 @@ public class ProductsPanel implements PanelReturner{
         scrollablePanel.repaint();
     }
 
+    private void setToCustomBorder(RoundedPanel rPanel){
+        rPanel.setShady(false);
+
+        int arc = 30;
+        rPanel.setArcs(new Dimension(arc, arc));
+    }
+
     @Override
     public JPanel getPanel() {
         return masterPanel;
@@ -232,7 +245,7 @@ public class ProductsPanel implements PanelReturner{
         int dummyPanelCount = 10;
         ImageIcon dummyImage = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/dummyImage.png");
         for(int i = 0; i < dummyPanelCount; i++){
-            addDashboardItem(new Product(dummyImage, "null", "null", "null", "null", "null"));
+            addDashboardItem(new Product(dummyImage, "product " + String.valueOf(i+1), "null", "null", "null", "null"));
         }
     }
 
