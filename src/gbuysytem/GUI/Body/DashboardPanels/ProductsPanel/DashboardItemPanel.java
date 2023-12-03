@@ -20,10 +20,17 @@ import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 
 public class DashboardItemPanel extends JPanel {
+    private Product product;
+    
+    public Product getProduct() {
+        return product;
+    }
+
     private final Color dashboardItemPanelColor = Color.decode("#FFFFFF");
     private final Color gridColor = Color.decode("#EEF0F3");
 
     public DashboardItemPanel(Product product, JButton editButton, JButton deleteButton) {
+        this.product = product;
         setPreferredSize(new Dimension(50, 50)); // Set a fixed size for each item
         setMaximumSize(new Dimension(Short.MAX_VALUE, 50)); // Ensure a fixed height
         setBorder(new BottomLineBorder(gridColor));
@@ -33,7 +40,7 @@ public class DashboardItemPanel extends JPanel {
         add(createIcon(product.getImageIcon()));
         add(createPanelWithLabel(product.getName()));
         add(createPanelWithLabel(product.getPrice()));
-        add(createPanelWithLabel(product.getQuantity()));
+        add(createPanelWithLabel(String.valueOf(product.getQuantity())));
         add(createPanelWithLabel(product.getCategory()));
         add(createPanelWithLabel(product.getDescription()));
         add(createButtonPanel(deleteButton));

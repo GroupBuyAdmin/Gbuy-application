@@ -2,6 +2,7 @@ package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 import javax.swing.*;
 
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.GbuyProductDatabase;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedPanel;
@@ -10,12 +11,6 @@ import gbuysytem.GUI.Body.fonts.GbuyFont;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +22,6 @@ public class ProductsPanel implements PanelReturner{
 
     private final Color scrollablePanelColor = Color.decode("#FFFFFF");
     private final Color gridColor = Color.decode("#FFFFFF");
-    // private final Color gridColor = Color.decode("#EEF0F3");
 
     public ProductsPanel(){}
 
@@ -60,7 +54,7 @@ public class ProductsPanel implements PanelReturner{
         masterPanel.add(buttonPanels, BorderLayout.NORTH);
         masterPanel.add(scrollPane, BorderLayout.CENTER);
 
-        addDummyPanels();
+        updateDashboard();
     }
  
     private ButtonPanels getButtonPanels() {
@@ -83,7 +77,6 @@ public class ProductsPanel implements PanelReturner{
         ButtonPanels buttonPanels = new ButtonPanels(filterButton, addButton);
         setupButtonPanelBehaviour(addButton, filterButton);
 
-       
         return buttonPanels;
     }
 
@@ -98,52 +91,15 @@ public class ProductsPanel implements PanelReturner{
          addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateProductPopUp popUp = new CreateProductPopUp(ProductsPanel.this);
-                popUp.PopUp();
+                ProductCreator productCreator = new ProductCreator(ProductsPanel.this);
             }
+
         });
-
-        String url = "jdbc:mysql://localhost:3306/gbuy";
-        String username = "root";
-        String password = "";
-
-        String sqlQuery = "SELECT name, price, quantity, category,details, image FROM product";
-
-        try (
-            // Establishing a connection to the database
-            Connection connection = DriverManager.getConnection(url, username, password);
-            // Creating a PreparedStatement for the SQL query
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            // Executing the query and getting the ResultSet
-            ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            // Processing the result set     
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");    
-                String cat = resultSet.getString("category");
-                String price = resultSet.getString("price");
-                String qty = resultSet.getString("quantity");
-                String detail = resultSet.getString("details");
-                byte[] imageData = resultSet.getBytes("image");
-    
-                // Convert image data to an Image object
-                ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
-                ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageData).getImage());  
-     
-                Product p = new Product(imageIcon, name,  price, qty,cat, detail);
-                addDashboardItem(p);
-                updateDashboard();
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //might be combo box
                 System.out.println("Filter button clicked!");
-                
             }
         });
     }
@@ -151,9 +107,7 @@ public class ProductsPanel implements PanelReturner{
     private void setupItemPanelButtonListener(RoundedButton deleteButton, RoundedButton editButton, DashboardItemPanel itemPanel) {
         deleteButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                //implement delete algo here
-                
+            public void actionPerformed(ActionEvent e) {                
                 deleteDashboardItem(itemPanel);
                 updateDashboard();
             }
@@ -162,10 +116,6 @@ public class ProductsPanel implements PanelReturner{
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //implement edit algo here
-
-
                 editDashboardItem(itemPanel);
                 updateDashboard();
             }
@@ -201,25 +151,32 @@ public class ProductsPanel implements PanelReturner{
         
         setupItemPanelButtonListener(deleteButton, editButton, itemPanel);
 
+        //add to local list of panels
         itemPanels.add(itemPanel);
-
-        updateDashboard();
     }
-
 
     private void deleteDashboardItem(DashboardItemPanel itemPanel) {
         System.out.println("deleteing itemPanel at row " + itemPanels.indexOf(itemPanel));
-        itemPanels.remove(itemPanel);
-        scrollablePanel.remove(itemPanel);
+        //delete from database using id
+        GbuyProductDatabase db = new GbuyProductDatabase();
+        db.deleteProduct(itemPanel.getProduct().getId());
     }
 
     private void editDashboardItem(DashboardItemPanel itemPanel) {
         System.out.println("editing itemPanel at row " + itemPanels.indexOf(itemPanel));
-        // Implement edit functionality here
+        ProductCreator productCreator = new ProductCreator(ProductsPanel.this, itemPanel.getProduct());
     }
 
-    private void updateDashboard(){
+    public void updateDashboard(){
+        GbuyProductDatabase db = new GbuyProductDatabase();
+        List<Product> allProducts = db.getProducts();
+        
         scrollablePanel.removeAll();
+        itemPanels.clear();
+
+        for(Product p : allProducts){
+            addDashboardItem(p);
+        }
 
         for(DashboardItemPanel dashboardItem : itemPanels){
             scrollablePanel.add(dashboardItem);
@@ -228,6 +185,8 @@ public class ProductsPanel implements PanelReturner{
         scrollablePanel.revalidate();
         scrollablePanel.repaint();
     }
+
+
 
     private void setToCustomBorder(RoundedPanel rPanel){
         rPanel.setShady(false);
@@ -239,14 +198,6 @@ public class ProductsPanel implements PanelReturner{
     @Override
     public JPanel getPanel() {
         return masterPanel;
-    }
-
-    private void addDummyPanels(){
-        int dummyPanelCount = 10;
-        ImageIcon dummyImage = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/dummyImage.png");
-        for(int i = 0; i < dummyPanelCount; i++){
-            addDashboardItem(new Product(dummyImage, "product " + String.valueOf(i+1), "null", "null", "null", "null"));
-        }
     }
 
     public void testPanel(){
