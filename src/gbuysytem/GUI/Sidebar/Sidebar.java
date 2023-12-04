@@ -9,46 +9,53 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.SwingConstants;
 
-public class Sidebar  extends JPanel{
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
+import gbuysytem.GUI.Body.fonts.GbuyFont;
+
+public class Sidebar extends JPanel{
     
-    JLabel logo,product,groupbuys,analytics;
-    JLabel separator;
+    JLabel logo;
+    RoundedButton productsButton;
+    RoundedButton groupbuysButton;
+    RoundedButton analyticsButton;
     
+    public RoundedButton getProductsButton() {
+        return productsButton;
+    }
+
+
+    public RoundedButton getGroupbuysButton() {
+        return groupbuysButton;
+    }
+
+
+    public RoundedButton getAnalyticsButton() {
+        return analyticsButton;
+    }
+
+
     public Sidebar(){
-
         logo = new JLabel("Groupbuy");
         ImageIcon LogoIcon = new ImageIcon("src/gbuysytem/GUI/Sidebar/img/logo.png");       
         Image LogoScaledImage = LogoIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon setLogoIcon = new ImageIcon(LogoScaledImage);    
-        Font projectFont = logo.getFont();
+        Font projectFont = GbuyFont.MULI_BOLD;
         logo.setFont(new Font(projectFont.getName(),Font.BOLD,20));
         logo.setIcon(setLogoIcon);                         
-        logo.setForeground(new Color(0x4D7CFF));
+        logo.setForeground(GBuyPalette.CUSTOM_BLUE);
    
-
-        product = new JLabel("Products");
-        setIcons( product, "src/gbuysytem/GUI/Sidebar/img/product.png",0x0D1720);
-        groupbuys = new JLabel("Groupbuys");
-        setIcons( groupbuys, "src/gbuysytem/GUI/Sidebar/img/groupbuys.png",0x0D1720);  
-        analytics = new JLabel("Analytics");
-        setIcons( analytics, "src/gbuysytem/GUI/Sidebar/img/analytics.png",0x0D1720);
-
-  
-        
         Dimension dim = getPreferredSize();
-        dim.width =180;
+        dim.width = 180;
         setPreferredSize(dim);
-        Border border = BorderFactory.createEtchedBorder();
-        setBorder(border);
         setBackground(Color.decode("#FCFDFF"));
+        createSideBarButtons();
         setSidebarLayout();
-         
     }
     
 
@@ -71,42 +78,78 @@ public class Sidebar  extends JPanel{
        GridBagConstraints gbc =  new GridBagConstraints();
       
        gbc.weightx = 0.1;
-       gbc.weighty = 0.5;
+       gbc.weighty = 0.3;
        gbc.gridx = 0;
-       gbc.gridy=0;
-       gbc.insets = new Insets(4, 5, 0, 0); // Add some spacing to the left
+       gbc.gridy = 0;
+       gbc.insets = new Insets(4, 10, 0, 10); // Add some spacing to the left
        gbc.fill = GridBagConstraints.NONE;
        gbc.anchor = GridBagConstraints.FIRST_LINE_START;    
        add(logo, gbc);
        
-  
-
        gbc.weightx = 0.1;
        gbc.weighty = 0.2;
        gbc.gridx = 0;
        gbc.gridy++;
-       gbc.insets = new Insets(0, 30, 0, 0); // Add some spacing to the left
+       gbc.insets = new Insets(0, 20, 0, 10); // Add some spacing to the left
        gbc.fill = GridBagConstraints.HORIZONTAL;
        gbc.anchor = GridBagConstraints.FIRST_LINE_END;  
-       add(product, gbc);
+       add(productsButton, gbc);
 
        gbc.weightx = 0.1;
        gbc.weighty = 0.2;
        gbc.gridx = 0;
        gbc.gridy++;
-       gbc.insets = new Insets(0, 30, 0, 0); // Add some spacing to the left
+       gbc.insets = new Insets(0, 20, 0, 10); // Add some spacing to the left
        gbc.fill = GridBagConstraints.HORIZONTAL;
        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-       add(groupbuys, gbc);
+       add(groupbuysButton, gbc);
 
        gbc.weightx = 0.1;
        gbc.weighty = 3;
        gbc.gridx = 0;
        gbc.gridy++;
-       gbc.insets = new Insets(0, 30, 0, 0); // Add some spacing to the left
+       gbc.insets = new Insets(0, 20, 0, 10); // Add some spacing to the left
        gbc.fill = GridBagConstraints.HORIZONTAL;
        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-       add(analytics, gbc);
+       add(analyticsButton, gbc);
 
     }
+
+    private void createSideBarButtons(){
+        ImageIcon productIcon = resizeIconForButton("src/gbuysytem/GUI/Sidebar/img/product.png");
+        productsButton = new RoundedButton("  Products", productIcon);
+        productsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        productsButton.setButtonColor(Color.white);
+        productsButton.setForeground(Color.BLACK);
+        productsButton.setDrawBorder(false);
+        productsButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
+        productsButton.setHorizontalAlignment(SwingConstants.LEFT);
+
+        ImageIcon groupbuysIcon = resizeIconForButton("src/gbuysytem/GUI/Sidebar/img/groupbuys.png");
+        groupbuysButton = new RoundedButton("  Groupbuys", groupbuysIcon);
+        groupbuysButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        groupbuysButton.setButtonColor(Color.white);
+        groupbuysButton.setForeground(Color.BLACK);
+        groupbuysButton.setDrawBorder(false);
+        groupbuysButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
+        groupbuysButton.setHorizontalAlignment(SwingConstants.LEFT);
+
+        ImageIcon analyticsIcon = resizeIconForButton("src/gbuysytem/GUI/Sidebar/img/analytics.png");
+        analyticsButton = new RoundedButton("  Analytics", analyticsIcon);
+        analyticsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        analyticsButton.setButtonColor(Color.white);
+        analyticsButton.setForeground(Color.BLACK);
+        analyticsButton.setDrawBorder(false);
+        analyticsButton.setButtonFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
+        analyticsButton.setHorizontalAlignment(SwingConstants.LEFT);
+
+    }
+
+    private ImageIcon resizeIconForButton(String imagePath) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image resizedImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        return resizedIcon;
+    }
+
 }

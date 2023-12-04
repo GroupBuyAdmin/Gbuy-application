@@ -4,15 +4,16 @@ package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 import javax.swing.ImageIcon;
 
 public class Product {
+    private int id;
     private ImageIcon imageIcon;
     private String name;
     private String category;
     private String price;
-    private String quantity;
+    private int quantity;
     private String description;
 
-    public Product(ImageIcon imageIcon, String name, String price, String quantity, String category, String description) {
-
+    public Product(ImageIcon imageIcon, String name, String price, int quantity, String category, String description) {
+        this.id = 0;
         this.imageIcon = imageIcon;
         this.name = name;
         this.category = category;
@@ -45,10 +46,10 @@ public class Product {
     public void setPrice(String price) {
         this.price = price;
     }
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
     public String getDescription() {
@@ -57,5 +58,10 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 }

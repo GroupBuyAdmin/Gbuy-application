@@ -1,4 +1,4 @@
-package gbuysytem.GUI.Body.DashboardPanels;
+package gbuysytem.GUI.Body.DashboardPanels.Misc;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -11,33 +11,32 @@ import java.awt.RenderingHints;
 
 public class RoundedButton extends JButton {
 
-    private Color buttonColor;
-    private Color hoverColor;
-    private Color pressedColor;
+    protected Color buttonColor;
+    protected Color hoverColor;
+    protected Color pressedColor;
     private Color borderColor;
-    private Font buttonFont;
     private boolean drawBorder;
-    private int cornerRadius;
+    protected int cornerRadius;
 
-    public RoundedButton(String text) {
+    public RoundedButton(String text) { //make button with text only
         super(text);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
-        this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        getFont();
+        setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
     }
-    public RoundedButton(String text, ImageIcon imageIcon) {
-        super(text);
+    public RoundedButton(String text, ImageIcon imageIcon) {    //make button with icon and text
+        super(text, imageIcon);
         this.buttonColor = getBackground();
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
-        this.buttonFont = getFont();
-        setContentAreaFilled(false); // Make the button transparent
+        getFont();
+        setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
     }
@@ -81,7 +80,6 @@ public class RoundedButton extends JButton {
     }
 
     public void setButtonFont(Font buttonFont) {
-        this.buttonFont = buttonFont;
         setFont(buttonFont);
     }
 
