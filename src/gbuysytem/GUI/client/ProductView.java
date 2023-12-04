@@ -102,7 +102,7 @@ public class ProductView extends JPanel{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(20, 20, 20, 20); // Adjust spacing as needed
+        gbc.insets = new Insets(80, 40, 20, 20); 
 
 
         String url = "jdbc:mysql://localhost:3306/gbuy";
@@ -159,16 +159,16 @@ public class ProductView extends JPanel{
    
      public JPanel product(String prodName , String prodPrice,ImageIcon image,String qty,String details) {
         JPanel panel = new JPanel();
-        Dimension dim = new Dimension(255, 360);
+        Dimension dim = new Dimension(240, 340);
         panel.setPreferredSize(dim);
         panel.setLayout(new GridBagLayout());
-        panel.setBackground(Color.decode("#E3E3E3"));
+        panel.setBackground(Color.decode("#f2fdff"));
 
         
         JLabel picture = new JLabel();
 
           //set ang image
-        Image analyticsScaledImage = image.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        Image analyticsScaledImage = image.getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH);
         ImageIcon setAnalyticsIcon = new ImageIcon(analyticsScaledImage);  
         picture.setIcon(setAnalyticsIcon);  
 
@@ -216,7 +216,7 @@ public class ProductView extends JPanel{
 
         name = new JLabel(prodName); 
         name.setForeground(Color.decode("#0A0A0A"));
-        name.setFont(new Font(name.getName(),Font.ROMAN_BASELINE,22));
+        name.setFont(new Font(name.getName(),Font.ROMAN_BASELINE,20));
         price = new JLabel("$"+prodPrice);
         price.setFont(new Font(price.getName(),Font.ITALIC,15));
         price.setForeground(Color.decode("#0A0A0A"));
@@ -226,11 +226,10 @@ public class ProductView extends JPanel{
 
       gbc.gridx=0;
       gbc.gridy=0;  
-      gbc.insets = new Insets(10, 0, 0, 370);
+      gbc.insets = new Insets(10, 0, 0, 335);
       panel.add(name,gbc);
       gbc.gridy++;
-
-      panel.add(price,gbc);
+       panel.add(price,gbc);
      
 
       return panel;
@@ -243,10 +242,10 @@ public class ProductView extends JPanel{
       cart = new JLabel("Cart");
       JPanel cartBtn = new JPanel();
       Dimension dartDim = getPreferredSize();
-      dartDim.width=115;
-      dartDim.height=40;
+      dartDim.width=110;
+      dartDim.height=30;
       cartBtn.setPreferredSize(dartDim);
-      cart.setFont(new Font(cart.getName(),Font.ROMAN_BASELINE,18));
+      cart.setFont(new Font(cart.getName(),Font.ROMAN_BASELINE,15));
       cartBtn.setBackground(Color.decode("#404040"));
       cart.setForeground(Color.WHITE);
       cartBtn.add(cart);
@@ -255,12 +254,12 @@ public class ProductView extends JPanel{
       view = new JLabel("View");
       JPanel viewBtn = new JPanel();
       Dimension viewDim = getPreferredSize();
-      viewDim.width=115;
-      viewDim.height=40;
+      viewDim.width=110;
+      viewDim.height=30;
       viewBtn.setPreferredSize(viewDim);
       viewBtn.setBackground(Color.decode("#E2E2E2"));
       view.setForeground(Color.decode("#444444"));
-      view.setFont(new Font(view.getName(),Font.ROMAN_BASELINE,18));
+      view.setFont(new Font(view.getName(),Font.ROMAN_BASELINE,15));
       viewBtn.add(view);
    
 
@@ -270,7 +269,7 @@ public class ProductView extends JPanel{
       gbc.gridx=0;
       gbc.gridy=0;
      
-      gbc.insets = new Insets(0, 0, 0, 10);
+      gbc.insets = new Insets(0, 0, 0, 8);
       panel.add(cartBtn,gbc);
       gbc.gridx++;
       panel.add(viewBtn,gbc);
