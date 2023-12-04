@@ -18,6 +18,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ProductCreator {
     private JFrame mainFrame;
@@ -209,7 +212,14 @@ public class ProductCreator {
                     spc.productCategory = (String) comboBox.getItemAt(comboBox.getSelectedIndex());
                     spc.productPrice = Double.parseDouble(detailsPanel.getFields().getSubDescription().getPriceTextField().getText());
                     spc.productQuantity = Integer.parseInt(detailsPanel.getFields().getSubDescription().getQuantityTextField().getText());
-                    spc.selectedFile = imagePanel.getIconButton().getFileChooser().getSelectedFile();
+
+                    if(imagePanel.getIconButton().HasSelected()){                                                   //if product image changed
+                        spc.selectedFile = imagePanel.getIconButton().getFileChooser().getSelectedFile();
+                    }
+                    else{                                                                                           //if product image was not changed
+                        spc.selectedFile = createTempFile(imagePanel.getImageContainer().getOriginalImage());
+                    }
+
 
                     if(!editProduct){   //execute when adding a product
                         GbuyProductDatabase db = GbuyProductDatabase.getInstance();
@@ -234,6 +244,7 @@ public class ProductCreator {
                     JFileChooser fChooser = imagePanel.getIconButton().getFileChooser();
                     int result = fChooser.showOpenDialog(CenterPanel.this);
                     if(result == JFileChooser.APPROVE_OPTION){
+                        imagePanel.getIconButton().setHasSelected(true);
                         File selectedFile = fChooser.getSelectedFile();
                         ImageIcon selectedImage = new ImageIcon(selectedFile.getPath());
                         //resize the image to fit container
@@ -277,10 +288,12 @@ public class ProductCreator {
             comboBox.setSelectedItem(spc.productCategory);
             detailsPanel.getFields().getSubDescription().getPriceTextField().setText(String.valueOf(spc.productPrice));
             detailsPanel.getFields().getSubDescription().getQuantityTextField().setText(String.valueOf(spc.productQuantity));
+            imagePanel.getImageContainer().setOriginalImage(spc.byteImage);
             ImageIcon imageIcon = new ImageIcon(new ImageIcon(spc.byteImage).getImage());
             Image resizedImage = resizeImage(imageIcon);
             ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
             imagePanel.getImageContainer().getImageLabel().setIcon(resizedImageIcon);
+
             imagePanel.imageContainer.refresh();
             imagePanel.iconButton.getButton().setText("Change Photo");
             imagePanel.getIconButton().refresh();
@@ -308,7 +321,12 @@ public class ProductCreator {
         }
         
         class ImageContainer extends JPanel{
+            byte[] originalImage;
             JLabel imageLabel;
+            
+            public byte[] getOriginalImage() {return originalImage;}
+            public void setOriginalImage(byte[] originalImage) {this.originalImage = originalImage;}
+
             public JLabel getImageLabel() {return imageLabel;}
 
             public ImageContainer(){
@@ -335,9 +353,12 @@ public class ProductCreator {
         class IconButton extends JPanel{
             RoundedButton button;
             JFileChooser fileChooser;
+            boolean hasSelected = false;
 
             public JFileChooser getFileChooser() {return fileChooser;}
             public JButton getButton() {return button;}
+            public void setHasSelected(boolean x){ hasSelected = x; }
+            public boolean HasSelected(){ return hasSelected; }
 
             public IconButton(){
                 this.button = new RoundedButton("Add Photo");
@@ -642,5 +663,33 @@ public class ProductCreator {
             }
             return null;
         }
+    }
+
+    private static File createTempFile(byte[] fileData) {
+        File tempFile = null;
+        FileOutputStream fos = null;
+
+        try {
+            // Create a temporary file
+            tempFile = File.createTempFile("temp", ".tmp");
+
+            // Write the byte array to the temporary file
+            fos = new FileOutputStream(tempFile);
+            fos.write(fileData);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the FileOutputStream if it's open
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return tempFile;
     }
 }
