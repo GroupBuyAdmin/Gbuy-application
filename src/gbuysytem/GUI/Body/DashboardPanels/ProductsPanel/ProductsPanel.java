@@ -4,6 +4,7 @@ import javax.swing.*;
 import gbuysytem.GUI.Body.DashboardPanels.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.RoundedButton;
 import gbuysytem.GUI.Body.fonts.CustomFont;
+import gbuysytem.GUI.client.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,17 +26,23 @@ public class ProductsPanel implements PanelReturner{
     private JPanel scrollablePanel;
     private JScrollPane scrollPane;
     private List<DashboardItemPanel> itemPanels;
+    public List<Products> products;
+
 
     private final Color scrollablePanelColor = Color.decode("#FFFFFF");
     private final Color gridColor = Color.decode("#EEF0F3");
 
-    public ProductsPanel(){}
+    public ProductsPanel(){
+        itemPanels = new ArrayList<>();
+        products = new ArrayList<>();
+    }
 
     public ProductsPanel(Dimension masterPanelDimension) {
         masterPanel = new JPanel();
         masterPanel.setPreferredSize(masterPanelDimension);
 
         itemPanels = new ArrayList<>();
+        products  = new ArrayList<>();
 
         scrollablePanel = new JPanel();
         scrollablePanel.setLayout(new BoxLayout(scrollablePanel, BoxLayout.Y_AXIS)); 
@@ -121,6 +128,9 @@ public class ProductsPanel implements PanelReturner{
      
                 Product p = new Product(imageIcon, name,  price, qty,cat, detail);
                 addDashboardItem(p);
+                Products  p1= new Products(imageIcon, name, price, qty, cat, detail);
+                products.add(p1);
+              /// printProducts();
               
               
             }
@@ -237,16 +247,20 @@ public class ProductsPanel implements PanelReturner{
         f.setVisible(true);
     }
 
-    // public static void main(String[] args) {
-    //     ProductsPanel p = new ProductsPanel(new Dimension(1000, 600));
-    //     p.testPanel();
-    // }
+    public List<Products> getItemPanels(){
+        return products;
+    }
+    
+    public void printProducts() {
+        for (Products product : products) {
+            System.out.println("Name: " + product.name);
+            // Print other properties as needed
+        }
+    }
+
 
 
 }
-
-
-
 
 
 

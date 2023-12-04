@@ -34,7 +34,7 @@ public class homepage extends JFrame{
       
         
         
-        setSize(1300,700);
+        setSize(1400,800);
         setVisible(true);
         setLocationRelativeTo(null);
 
