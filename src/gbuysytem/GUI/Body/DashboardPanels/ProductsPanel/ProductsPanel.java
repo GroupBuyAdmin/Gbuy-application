@@ -91,7 +91,13 @@ public class ProductsPanel implements PanelReturner{
          addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductCreator productCreator = new ProductCreator(ProductsPanel.this);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ProductCreator productCreator = new ProductCreator(ProductsPanel.this);
+                    }
+                    
+                });
             }
 
         });
@@ -158,17 +164,23 @@ public class ProductsPanel implements PanelReturner{
     private void deleteDashboardItem(DashboardItemPanel itemPanel) {
         System.out.println("deleteing itemPanel at row " + itemPanels.indexOf(itemPanel));
         //delete from database using id
-        GbuyProductDatabase db = new GbuyProductDatabase();
+        GbuyProductDatabase db = GbuyProductDatabase.getInstance();
         db.deleteProduct(itemPanel.getProduct().getId());
     }
 
     private void editDashboardItem(DashboardItemPanel itemPanel) {
         System.out.println("editing itemPanel at row " + itemPanels.indexOf(itemPanel));
-        ProductCreator productCreator = new ProductCreator(ProductsPanel.this, itemPanel.getProduct());
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ProductCreator productCreator = new ProductCreator(ProductsPanel.this, itemPanel.getProduct());
+            }
+            
+        });
     }
 
     public void updateDashboard(){
-        GbuyProductDatabase db = new GbuyProductDatabase();
+        GbuyProductDatabase db = GbuyProductDatabase.getInstance();
         List<Product> allProducts = db.getProducts();
         
         scrollablePanel.removeAll();

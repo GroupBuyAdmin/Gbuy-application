@@ -3,8 +3,16 @@ package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.GbuyProductDatabase;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerComboBox;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerTextArea;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerTextField;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedImageIcon;
+import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedPanel;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.SingleProductContainer;
+import gbuysytem.GUI.Body.fonts.GbuyFont;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,15 +45,28 @@ public class ProductCreator {
         masterPanel = new JPanel();
 
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel headerLabel = new JLabel("Add Product");
+        headerPanel.setBackground(Color.white);
+        
+        JLabel headerLabel = new JLabel();
+        if(!editProduct){
+            headerLabel.setText("Add Product");
+        }
+        else{
+            headerLabel.setText("Edit Product");
+        }
+        headerLabel.setFont(GbuyFont.MULI_BOLD.deriveFont(20f));
+        headerLabel.setForeground(GBuyPalette.CUSTOM_BLACK);
         headerPanel.add(headerLabel);
 
         CenterPanel centerPanel = new CenterPanel();
+        centerPanel.setBackground(Color.white);
 
         masterPanel.setLayout(new BorderLayout());
         masterPanel.add(headerPanel, BorderLayout.NORTH);
         masterPanel.add(centerPanel, BorderLayout.CENTER);
-        
+        masterPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        masterPanel.setBackground(Color.white);
+
         initFrame();
 
         if(editProduct){
@@ -54,12 +75,10 @@ public class ProductCreator {
         }
     }
 
-
-
     private void initFrame(){
         mainFrame = new JFrame();
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800,600);
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainFrame.setSize(1000,800);
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setContentPane(masterPanel);
@@ -120,9 +139,9 @@ public class ProductCreator {
         return flag;
     }
 
-    // public static void main(String[] args) {
-    //     ProductCreator p = new ProductCreator(new ProductsPanel());
-    // }
+    public static void main(String[] args) {
+        ProductCreator p = new ProductCreator(new ProductsPanel());
+    }
 
     class CenterPanel extends JPanel{
         ImagePanel imagePanel;
@@ -133,8 +152,10 @@ public class ProductCreator {
 
         public CenterPanel(){
             this.imagePanel = new ImagePanel();
+            imagePanel.setBackground(Color.white);
             this.imagePanel.setPreferredSize(new Dimension(150, 300));
             this.detailsPanel = new DetailsPanel();
+            imagePanel.setBackground(Color.white);
 
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -144,6 +165,7 @@ public class ProductCreator {
             gbc.weightx = 1.0;
             gbc.weighty = 0.5;
             gbc.fill = GridBagConstraints.BOTH;
+            gbc.insets = new Insets(0, 0, 0, 20);
             add(imagePanel, gbc);
             
             gbc.gridx++;
@@ -180,6 +202,7 @@ public class ProductCreator {
 
                 private void uploadProductToDatabase() {
                     SingleProductContainer spc = new SingleProductContainer();
+
                     spc.productName = detailsPanel.getFields().getTextFields().getNameTextField().getText();
                     spc.productDescription = detailsPanel.getFields().getTextFields().getDescTextArea().getText();
                     JComboBox<String> comboBox = detailsPanel.getFields().getSubDescription().getComboBox();
@@ -188,15 +211,15 @@ public class ProductCreator {
                     spc.productQuantity = Integer.parseInt(detailsPanel.getFields().getSubDescription().getQuantityTextField().getText());
                     spc.selectedFile = imagePanel.getIconButton().getFileChooser().getSelectedFile();
 
-                    if(!editProduct){
-                        GbuyProductDatabase db = new GbuyProductDatabase();
-                        db.insertProduct(spc.productName, spc.productCategory, spc.productPrice, spc.productDescription, spc.productQuantity, spc.selectedFile);
+                    if(!editProduct){   //execute when adding a product
+                        GbuyProductDatabase db = GbuyProductDatabase.getInstance();
+                        db.insertProduct(spc);
                         productsPanel.updateDashboard();
                         JOptionPane.showMessageDialog(CenterPanel.this, spc.productName + " was added");
                     }
-                    else{
-                        GbuyProductDatabase db = new GbuyProductDatabase();
-                        db.editProduct(spc.productName, spc.productCategory, spc.productPrice, spc.productDescription, spc.productQuantity, spc.selectedFile, product.getId());
+                    else{               //execute when editing a product
+                        GbuyProductDatabase db = GbuyProductDatabase.getInstance();
+                        db.editProduct(spc, product.getId());
                         productsPanel.updateDashboard();
                         JOptionPane.showMessageDialog(CenterPanel.this, "product " + product.getId() + " was edited");
                     }
@@ -240,11 +263,11 @@ public class ProductCreator {
             return image;
         }
 
-        private void initializeWithData() {
+        private void initializeWithData() {             //execute if in edit mode
             int productId = product.getId();
             SingleProductContainer spc = new SingleProductContainer();
 
-            GbuyProductDatabase db = new GbuyProductDatabase();
+            GbuyProductDatabase db = GbuyProductDatabase.getInstance();
             db.getSingleProduct(productId, spc);
 
             //initialiazing fields
@@ -275,9 +298,11 @@ public class ProductCreator {
         public ImagePanel(){
             setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             this.imageContainer = new ImageContainer();
+            imageContainer.setBackground(Color.white);
             this.iconButton = new IconButton();
+            iconButton.setBackground(Color.white);
             
-            setLayout(new BorderLayout());
+            setLayout(new BorderLayout(0,20));
             add(imageContainer, BorderLayout.CENTER);
             add(iconButton, BorderLayout.SOUTH);
         }
@@ -287,9 +312,18 @@ public class ProductCreator {
             public JLabel getImageLabel() {return imageLabel;}
 
             public ImageContainer(){
-                imageLabel = new JLabel();
+                imageLabel = new JLabel("No Photo");
+                imageLabel.setHorizontalAlignment(JLabel.CENTER);
+                imageLabel.setFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(12f));
                 setLayout(new BorderLayout());
-                add(imageLabel, BorderLayout.CENTER);
+   
+                RoundedPanel r = new RoundedPanel();
+                r.setLayout(new BorderLayout());
+                r.setShady(false);
+                r.add(imageLabel, BorderLayout.CENTER);
+                r.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
+
+                add(r, BorderLayout.CENTER);
             }
 
             public void refresh(){
@@ -299,14 +333,19 @@ public class ProductCreator {
         }
 
         class IconButton extends JPanel{
-            JButton button;
+            RoundedButton button;
             JFileChooser fileChooser;
 
             public JFileChooser getFileChooser() {return fileChooser;}
             public JButton getButton() {return button;}
 
             public IconButton(){
-                this.button = new JButton("Add Photo");
+                this.button = new RoundedButton("Add Photo");
+                button.setBorderColor(GBuyPalette.CUSTOM_BLUE);
+                button.setButtonColor(Color.white);
+                button.setForeground(GBuyPalette.CUSTOM_BLUE);
+                button.setButtonFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+
                 this.fileChooser = new JFileChooser();
                 fileChooser.setFileFilter(new ImageFileFilter());
                 setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -331,7 +370,9 @@ public class ProductCreator {
         public DetailsPanel(){
             setLayout(new BorderLayout());
             this.fields = new Fields();
+            fields.setBackground(Color.white);
             this.uploadPanel = new UploadPanel();
+            uploadPanel.setBackground(Color.white);
 
             add(fields, BorderLayout.CENTER);
             add(uploadPanel, BorderLayout.SOUTH);
@@ -348,8 +389,10 @@ public class ProductCreator {
             public Fields(){
                 setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 this.textFields = new TextFields();
+                textFields.setBackground(Color.white);
                 textFields.setPreferredSize(new Dimension(25, 100));
                 this.subDescription = new SubDescription();
+                subDescription.setBackground(Color.white);
 
                 setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -368,8 +411,8 @@ public class ProductCreator {
 
             //product name and product description
             class TextFields extends JPanel{
-                JTextField nameTextField;
-                JTextArea descTextArea;
+                RoundedCornerTextField nameTextField;
+                RoundedCornerTextArea descTextArea;
                 
                 public JTextField getNameTextField() {return nameTextField;}
                 public JTextArea getDescTextArea() {return descTextArea;}
@@ -377,21 +420,30 @@ public class ProductCreator {
                 public TextFields(){
                     
                     JLabel nameFieldLabel = new JLabel("Product Name");
+                    nameFieldLabel.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
                     nameFieldLabel.setHorizontalAlignment(JLabel.LEFT);
 
-                    this.nameTextField = new JTextField();
-
+                    this.nameTextField = new RoundedCornerTextField();
+                    nameTextField.setText("Enter name");
+                    nameTextField.setFont(GbuyFont.MULI_SEMI_BOLD.deriveFont(14f));
+                    nameTextField.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+                    nameTextField.setForeground(GBuyPalette.CUSTOM_BLUE);
+                    nameTextField.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
 
                     //inside descFieldPanel
-                    JLabel descFieldLabel = new JLabel("Product Description");
+                    JLabel descFieldLabel = new JLabel("Description");
+                    descFieldLabel.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
                     descFieldLabel.setHorizontalAlignment(JLabel.LEFT);
 
 
-                    this.descTextArea = new JTextArea();
-                    descTextArea.setLineWrap(true);
-                    descTextArea.setWrapStyleWord(true);
+                    this.descTextArea = new RoundedCornerTextArea();
+                    descTextArea.setFont(GbuyFont.MULI_LIGHT.deriveFont(12f));
+                    descTextArea.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+                    descTextArea.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
 
                     JScrollPane descScrollPanel = new JScrollPane(descTextArea);
+                    descScrollPanel.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
+                    descScrollPanel.setBorder(BorderFactory.createEmptyBorder());
 
                     //layout
                     setLayout(new GridBagLayout());
@@ -402,20 +454,22 @@ public class ProductCreator {
 
                     gbc.weighty = 0.2;
                     gbc.fill = GridBagConstraints.BOTH;
+                    gbc.insets = new Insets(0, 0, 5, 0);
                     add(nameFieldLabel, gbc);
                     
                     gbc.weighty = 0.5;
                     gbc.gridy++;
-                    gbc.insets = new Insets(0, 0, 10, 0);
+                    gbc.insets = new Insets(0, 0, 25, 0);
                     add(nameTextField, gbc);
                     
                     gbc.weighty = 0.2;
                     gbc.gridy++;
-                    gbc.insets = new Insets(0, 0, 0, 0);
+                    gbc.insets = new Insets(0, 0, 5, 0);
                     add(descFieldLabel, gbc);
                     
                     gbc.weighty = 10;
                     gbc.gridy++;
+                    gbc.insets = new Insets(0, 0, 60, 0);
                     add(descScrollPanel, gbc);
                 }
 
@@ -423,9 +477,9 @@ public class ProductCreator {
 
             //product price, category, quantity
             class SubDescription extends JPanel{
-                JTextField priceTextField;
-                JTextField quantityTextField;
-                JComboBox<String> comboBox;
+                RoundedCornerTextField priceTextField;
+                RoundedCornerTextField quantityTextField;
+                RoundedCornerComboBox comboBox;
 
                 public JComboBox<String> getComboBox() {return comboBox;}
                 public JTextField getPriceTextField() {return priceTextField;}
@@ -436,19 +490,46 @@ public class ProductCreator {
                     //for categories drop down
                     JLabel categorylabel = new JLabel("Category");
                     categorylabel.setHorizontalAlignment(JLabel.LEFT);
+                    categorylabel.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
   
                     String[] categories = {"Electronics", "Clothing", "Books", "Home and Kitchen", "Sports"};
-                    this.comboBox = new JComboBox<>(categories);
+                    this.comboBox = new RoundedCornerComboBox(categories);
+                    ImageIcon img = new ImageIcon("src/gbuysytem/GUI/Body/DashboardPanels/ProductsPanel/img/down.png");
+                    Icon customDropdownIcon = new ImageIcon(img.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+                    comboBox.setCustomDropdownIcon(customDropdownIcon);
+                    comboBox.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
+                    comboBox.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+
+                    RoundedPanel comboBoxPanel = new RoundedPanel();
+                    comboBoxPanel.setShady(false);
+                    comboBoxPanel.setArcs(new Dimension(10, 10));
+                    comboBoxPanel.setLayout(new BorderLayout());
+                    comboBoxPanel.add(comboBox, BorderLayout.CENTER);
+                    comboBoxPanel.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
 
                     //for price
-                    JLabel priceLabel = new JLabel("Price");
+                    JLabel priceLabel = new JLabel("Price $");
                     priceLabel.setHorizontalAlignment(JLabel.LEFT);
-                    this.priceTextField = new JTextField();
+                    priceLabel.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+
+                    this.priceTextField = new RoundedCornerTextField();
+                    priceTextField.setText("0.00");
+                    priceTextField.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
+                    priceTextField.setForeground(GBuyPalette.CUSTOM_BLUE);
+                    priceTextField.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+                    priceTextField.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
 
                     //for quantity
                     JLabel quantityLabel = new JLabel("Quantity");
                     quantityLabel.setHorizontalAlignment(JLabel.LEFT);
-                    this.quantityTextField = new JTextField();
+                    quantityLabel.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+                    this.quantityTextField = new RoundedCornerTextField();
+                    quantityTextField.setText("10");
+                    quantityTextField.setBackground(GBuyPalette.CUSTOM_PALE_BLUE);
+                    quantityTextField.setForeground(GBuyPalette.CUSTOM_BLUE);
+                    quantityTextField.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+                    quantityTextField.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+
 
                     setLayout(new GridBagLayout());
                     GridBagConstraints gbc = new GridBagConstraints();
@@ -461,6 +542,7 @@ public class ProductCreator {
                     gbc.weightx = 0.5;
                     gbc.weighty = 0.5;
                     gbc.gridwidth = 2;
+                    gbc.insets = new Insets(0, 0, 5, 0);
                     add(categorylabel, gbc);
                     
                     //row 2
@@ -468,16 +550,18 @@ public class ProductCreator {
                     gbc.weighty = 0.5;
                     gbc.gridwidth = 2;
                     gbc.gridy++;
-                    add(comboBox, gbc);
-
+                    gbc.insets = new Insets(0, 0, 10, 0);
+                    add(comboBoxPanel, gbc);
+                    
                     //row 3
                     gbc.weightx = 0.5;
                     gbc.weighty = 0.5;
                     gbc.gridwidth = 1;
                     gbc.gridy++;
                     gbc.gridx = 0;
+                    gbc.insets = new Insets(0, 0, 5, 0);
                     add(priceLabel, gbc);
-
+                    
                     gbc.weightx = 0.5;
                     gbc.weighty = 0.5;
                     gbc.gridwidth = 1;
@@ -490,7 +574,7 @@ public class ProductCreator {
                     gbc.gridwidth = 1;
                     gbc.gridy++;
                     gbc.gridx = 0;
-                    gbc.insets = new Insets(0, 0, 0, 10);
+                    gbc.insets = new Insets(0, 0, 0, 15);
                     add(priceTextField, gbc);
                     
                     gbc.weightx = 0.5;
@@ -505,15 +589,24 @@ public class ProductCreator {
         }
 
         class UploadPanel extends JPanel{
-            JButton uploadButton;
-            JButton cancelButton;
+            RoundedButton uploadButton;
+            RoundedButton cancelButton;
 
             public JButton getUploadButton() {return uploadButton;}
             public JButton getCancelButton() {return cancelButton;}
 
             public UploadPanel(){
-                this.uploadButton = new JButton("Upload");
-                this.cancelButton = new JButton("Cancel");
+                this.uploadButton = new RoundedButton("Upload");
+                uploadButton.setButtonColor(GBuyPalette.CUSTOM_BLUE);
+                uploadButton.setForeground(Color.white);
+                uploadButton.setDrawBorder(false);
+                uploadButton.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
+
+                this.cancelButton = new RoundedButton("Cancel");
+                cancelButton.setButtonColor(Color.white);
+                cancelButton.setForeground(GBuyPalette.CUSTOM_BLUE);
+                cancelButton.setDrawBorder(false);
+                cancelButton.setFont(GbuyFont.MULI_BOLD.deriveFont(14f));
 
                 setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
 

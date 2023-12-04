@@ -1,6 +1,5 @@
 package gbuysytem.GUI.Body.DashboardPanels.Misc;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +10,9 @@ import javax.swing.ImageIcon;
 import gbuysytem.GUI.Body.DashboardPanels.ProductsPanel.Product;
 
 public class GbuyProductDatabase {
+
+    private static volatile GbuyProductDatabase instance;
+
     private String driver = "com.mysql.cj.jdbc.Driver";
     private String databaseName = "leandergbuydb";                                      //modify this
     private String url = "jdbc:mysql://localhost:3306/" + databaseName;
@@ -22,28 +24,44 @@ public class GbuyProductDatabase {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
+
+    private GbuyProductDatabase(){} //for singleton pattern
+
+    public static GbuyProductDatabase getInstance(){
+        GbuyProductDatabase thisInstance = instance;
+        if(thisInstance == null){
+            synchronized (GbuyProductDatabase.class){
+                thisInstance = instance;
+                if(instance == null){
+                    instance = thisInstance = new GbuyProductDatabase();
+                }
+            }
+        }
+        return thisInstance;
+    }
+
     //insert to database the product
-    public void insertProduct(String productName, String productCategory, double productPrice, String productDescription, int productQuantity, File productImage){
+    public void insertProduct(SingleProductContainer spc){
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, username, password);
             query = "INSERT INTO products (productName, productCategory, productPrice, productDescription, productQuantity, productImage) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1, productName);
-            preparedStatement.setString(2, productCategory);
-            preparedStatement.setDouble(3, productPrice);
-            preparedStatement.setString(4, productDescription);
-            preparedStatement.setInt(5, productQuantity);
-            try (FileInputStream inputStream = new FileInputStream(productImage)) {
-                byte[] imageData = new byte[(int) productImage.length()];
+            preparedStatement.setString(1, spc.productName);
+            preparedStatement.setString(2, spc.productCategory);
+            preparedStatement.setDouble(3, spc.productPrice);
+            preparedStatement.setString(4, spc.productDescription);
+            preparedStatement.setInt(5, spc.productQuantity);
+            try (FileInputStream inputStream = new FileInputStream(spc.selectedFile)) {
+                byte[] imageData = new byte[(int) spc.selectedFile.length()];
                 inputStream.read(imageData);
                 preparedStatement.setBytes(6, imageData);
             }
 
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println(rowsAffected + " row(s) affected");
-            System.out.println(productName + " was product added");
+            System.out.println(spc.productName + " was product added");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,20 +151,20 @@ public class GbuyProductDatabase {
         }
     }
 
-    public void editProduct(String productName, String productCategory, double productPrice, String productDescription, int productQuantity, File productImage, int productIdtoEdit){
+    public void editProduct(SingleProductContainer spc, int productIdtoEdit){
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, username, password);
             query = "UPDATE products SET productName = ?, productCategory = ?, productPrice = ?, productDescription = ?, productQuantity = ?, productImage = ? WHERE productId = ?";
             preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1, productName);
-            preparedStatement.setString(2, productCategory);
-            preparedStatement.setDouble(3, productPrice);  
-            preparedStatement.setString(4, productDescription);
-            preparedStatement.setInt(5, productQuantity);  
-            try (FileInputStream inputStream = new FileInputStream(productImage)) {
-                byte[] imageData = new byte[(int) productImage.length()];
+            preparedStatement.setString(1, spc.productName);
+            preparedStatement.setString(2, spc.productCategory);
+            preparedStatement.setDouble(3, spc.productPrice);  
+            preparedStatement.setString(4, spc.productDescription);
+            preparedStatement.setInt(5, spc.productQuantity);  
+            try (FileInputStream inputStream = new FileInputStream(spc.selectedFile)) {
+                byte[] imageData = new byte[(int) spc.selectedFile.length()];
                 inputStream.read(imageData);
                 preparedStatement.setBytes(6, imageData);
             }

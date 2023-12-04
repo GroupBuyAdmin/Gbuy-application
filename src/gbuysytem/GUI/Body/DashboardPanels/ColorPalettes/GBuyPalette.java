@@ -11,5 +11,7 @@ public class GBuyPalette {
     public static final Color CUSTOM_LIGHT_BLUE = Color.decode("#4D9FCE");
     public static final Color CUSTOM_LIGHT_GRAY = Color.decode("#C4C4C4");
     public static final Color CUSTOM_RED = Color.decode("#F43334");
-    public static final Color CUSTOM_BLACK = Color.decode("#000000");
+    public static final Color CUSTOM_BLACK = Color.decode("#06122C");
+    public static final Color CUSTOM_PALE_BLUE = Color.decode("#F9FAFF");
+
 }
