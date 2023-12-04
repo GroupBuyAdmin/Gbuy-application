@@ -15,7 +15,6 @@ public class RoundedButton extends JButton {
     protected Color hoverColor;
     protected Color pressedColor;
     private Color borderColor;
-    private Font buttonFont;
     private boolean drawBorder;
     protected int cornerRadius;
 
@@ -25,7 +24,7 @@ public class RoundedButton extends JButton {
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
-        this.buttonFont = getFont();
+        getFont();
         setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
@@ -36,7 +35,7 @@ public class RoundedButton extends JButton {
         this.cornerRadius = 10;
         this.borderColor = Color.black;
         this.drawBorder = true;
-        this.buttonFont = getFont();
+        getFont();
         setContentAreaFilled(false); 
         updateHoverColor();
         updatePressedColor();
@@ -81,7 +80,6 @@ public class RoundedButton extends JButton {
     }
 
     public void setButtonFont(Font buttonFont) {
-        this.buttonFont = buttonFont;
         setFont(buttonFont);
     }
 

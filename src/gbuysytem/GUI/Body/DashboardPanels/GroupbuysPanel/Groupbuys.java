@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,6 +19,9 @@ import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.ProductsPanel.Product;
 import gbuysytem.GUI.Body.fonts.GbuyFont;
+
+
+//this panel is still in progress
 
 public class Groupbuys implements PanelReturner{
     private JPanel masterPanel;

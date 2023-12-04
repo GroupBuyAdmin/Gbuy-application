@@ -1,6 +1,32 @@
 package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
@@ -9,18 +35,9 @@ import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerComboBox;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerTextArea;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedCornerTextField;
-import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedImageIcon;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedPanel;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.SingleProductContainer;
 import gbuysytem.GUI.Body.fonts.GbuyFont;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ProductCreator {
     private JFrame mainFrame;
@@ -142,9 +159,9 @@ public class ProductCreator {
         return flag;
     }
 
-    public static void main(String[] args) {
-        ProductCreator p = new ProductCreator(new ProductsPanel());
-    }
+    // public static void main(String[] args) {
+    //     ProductCreator p = new ProductCreator(new ProductsPanel());
+    // }
 
     class CenterPanel extends JPanel{
         ImagePanel imagePanel;

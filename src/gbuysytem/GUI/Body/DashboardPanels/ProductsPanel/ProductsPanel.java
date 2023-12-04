@@ -1,5 +1,22 @@
 package gbuysytem.GUI.Body.DashboardPanels.ProductsPanel;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import gbuysytem.GUI.Body.DashboardPanels.ColorPalettes.GBuyPalette;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.GbuyProductDatabase;
@@ -7,12 +24,6 @@ import gbuysytem.GUI.Body.DashboardPanels.Misc.PanelReturner;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedButton;
 import gbuysytem.GUI.Body.DashboardPanels.Misc.RoundedPanel;
 import gbuysytem.GUI.Body.fonts.GbuyFont;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProductsPanel implements PanelReturner{
     private JPanel masterPanel;
@@ -94,7 +105,7 @@ public class ProductsPanel implements PanelReturner{
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        ProductCreator productCreator = new ProductCreator(ProductsPanel.this);
+                        new ProductCreator(ProductsPanel.this);
                     }
                     
                 });
@@ -173,7 +184,7 @@ public class ProductsPanel implements PanelReturner{
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ProductCreator productCreator = new ProductCreator(ProductsPanel.this, itemPanel.getProduct());
+                new ProductCreator(ProductsPanel.this, itemPanel.getProduct());
             }
             
         });
